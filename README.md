@@ -65,3 +65,10 @@ cd ~/UAV_manager
 source install/setup.bash
 ros2 run controllo comando
 ```
+
+
+   [ROS2 foxy]: <https://docs.px4.io/main/en/ros/ros2_comm.html#install-ros-2>
+   [ROS noetic]: <http://wiki.ros.org/noetic/Installation/Ubuntu>
+   [Fast DDS]: <https://docs.px4.io/main/en/ros/ros2_comm.html#install-fast-dds>
+   [Java SDK 11]: <https://www.oracle.com/java/technologies/downloads/#java11>
+   [PX4 Autopilot]: <https://docs.px4.io/main/en/dev_setup/building_px4.html>
