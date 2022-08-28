@@ -67,6 +67,7 @@ source install/setup.bash
 ros2 run controllo comando
 ```
 
+
 ## Simulated mocap node
 With a few adjustments, it is possible to simulate a Motion Captur system inside the gaebo simulation
 
@@ -91,6 +92,7 @@ cd ~/UAV_manager
 source install/setup.bash
 ros2 run controllo mocap
 ```
+
 
 ## Optitrack mocap system
 It is possible to replace the simulated Mocap node with a real optitrack system. To do so, it is necessary for the optitrack system and the computer to be connected to the same Wi-Fi connection and to install on your machine both ROS2 Foxy and ROS noetic
