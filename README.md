@@ -15,25 +15,25 @@ This project enables the simulation of a UAV with a PX4 Autopilot both in the ga
 # How to use
 Regardless of the use case, two more packages are necessary dor the correct functioning of the system: the PX4_msgs, PX4_ros_com and cpp-spline package
 
-Step 1: Clone the repository:
+**Step 1: Clone the repository:**
 ```sh
 mkdir -p ~/UAV_manager/src && cd UAV_manager/src
 git clone https://github.com/davipase/Surveillance_system.git
 ```
-Step 2: Clone additional packages:
+**Step 2: Clone additional packages:**
 ```sh
 git clone git https://github.com/PX4/px4_msgs.git ~/UAV_manager/src/px4_msgs
 git clone git https://github.com/PX4/px4_ros_com.git ~/UAV_manager/src/px4_ros_com
 git clone https://github.com/chen0040/cpp-spline.git ~/UAV_manager/src/cpp-spline
 ```
-Step 3: Build the project
+**Step 3: Build the project**
 ```sh
 cd ~/UAV_manager
 colcon build
 source install/setup.bash
 ```
 
-Now the project is ready to be used.
+**Now the project is ready to be used.**
 All the following commands must be executed on a separate shell window.
 
 ### Tab 1: px4 simulation
@@ -43,7 +43,7 @@ colcon build
 source install/setup.bash
 make px4_sitl_rtps gazebo
 ```
-line 2 needs to be executed only the first time the PX4-Autopilot package is build or after it is modified
+> Note: line 2 needs to be executed only the first time the PX4-Autopilot package is build or after it is modified
 
 ### Tab 2: micrortps
 ```sh
@@ -66,7 +66,6 @@ cd ~/UAV_manager
 source install/setup.bash
 ros2 run controllo comando
 ```
-
 
 ## Simulated mocap node
 With a few adjustments, it is possible to simulate a Motion Captur system inside the gaebo simulation
@@ -93,19 +92,18 @@ source install/setup.bash
 ros2 run controllo mocap
 ```
 
-
 ## Optitrack mocap system
 It is possible to replace the simulated Mocap node with a real optitrack system. To do so, it is necessary for the optitrack system and the computer to be connected to the same Wi-Fi connection and to install on your machine both ROS2 Foxy and ROS noetic
 
-Step 1: Download the ROS1 bridge
+**Step 1: Download the ROS1 bridge**
 ```sh
 cd ~/UAV_manager/src
 git clone https://github.com/ros2/ros1_bridge.git ~/UAV_manager/src/ros1_bridge
 ```
 
-Step 2: download, build and start the [Natnet] package following the README instructions
+**Step 2: download, build and start the [Natnet] package following the README instructions**
 
-Step 3: build the workspace
+**Step 3: build the workspace**
 > Note: in the following lines of code it is assumed that you installed ROS noetic and ROS2 Foxy to the default locations `/opt/ros/noetic` and `/opt/ros/foxy`. Otherwise, change them with the correct install path.
 
 - build the ROS2 packages
@@ -120,6 +118,21 @@ surce /opt/ros/foxy/setup.bash
 colcon build --symlink-install --packages-skip ros1_bridge
 source install/setup.bash
 ```
+**Step 4: start the nodes**
+- Start tabs 1..4 (don't execute `colcon build` while starting tab 2)
+- Run the [Natnet] node as shown in the README
+- Run the ROS1 bridge
+```sh
+source install/setup.bash
+ros2 run ros1_bridge dynamic_bridge
+```
+> Note: the *ros1_bridge* package needs an active roscore master to run. In this case, the roscore is already running from the *roslaunch* command used to start the Natnet node. If you want to run the bridge alone, remenber to run `roscore` in a different tab
+
+- in one more tab, run the optitrack_mocap node with the command
+```sh
+ros2 run optitrack_mocap optitrack_mocap
+```
+
 
 
    [ROS2 foxy]: <https://docs.px4.io/main/en/ros/ros2_comm.html#install-ros-2>
