@@ -1,7 +1,5 @@
 # SURVEILLANCE SYSTEM - UAV MANAGER
 
-[![Build Status](https://travis-ci.org/joemccann/dillinger.svg?branch=master)](https://travis-ci.org/joemccann/dillinger) ??poi da vedere
-
 This project enables the simulation of a UAV with a PX4 Autopilot both in the gazebo simulated environment and using an Optitrack motion capture system. Necessary Ubuntu 20.04 or later.
 
 
