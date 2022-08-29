@@ -1,0 +1,48 @@
+\hypertarget{classMocap__sim}{}\doxysection{Mocap\+\_\+sim Class Reference}
+\label{classMocap__sim}\index{Mocap\_sim@{Mocap\_sim}}
+
+
+Class that simulates a motion capture system in gazebo.  
+
+
+Inheritance diagram for Mocap\+\_\+sim\+:\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[height=2.000000cm]{classMocap__sim}
+\end{center}
+\end{figure}
+\doxysubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{classMocap__sim_abf98676a8447d8fb2badf1e8c3831e87}{Mocap\+\_\+sim}} ()
+\item 
+void \mbox{\hyperlink{classMocap__sim_a6b03ae625cdb68968d328338e02fdb7e}{pub\+\_\+odometry}} ()
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+Class that simulates a motion capture system in gazebo. 
+
+The \mbox{\hyperlink{classMocap__sim}{Mocap\+\_\+sim}} class is able to simulate a Motion Capture system inside the Gazebo simulation. It gets the position information from the Gazebo\+\_\+mocap node and the rotation data from the odometry topic of the PX4. It then relays the position information to the drone. For this jnode to work it is compulsory to HANGE THE PX4-\/\+AUTOPILOT PARAMETERS accordingly (check for instruction in the README file). 
+
+\doxysubsection{Constructor \& Destructor Documentation}
+\mbox{\Hypertarget{classMocap__sim_abf98676a8447d8fb2badf1e8c3831e87}\label{classMocap__sim_abf98676a8447d8fb2badf1e8c3831e87}} 
+\index{Mocap\_sim@{Mocap\_sim}!Mocap\_sim@{Mocap\_sim}}
+\index{Mocap\_sim@{Mocap\_sim}!Mocap\_sim@{Mocap\_sim}}
+\doxysubsubsection{\texorpdfstring{Mocap\_sim()}{Mocap\_sim()}}
+{\footnotesize\ttfamily Mocap\+\_\+sim\+::\+Mocap\+\_\+sim (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+\mbox{\hyperlink{classMocap__sim}{Mocap\+\_\+sim}} constructor. it initialize the publishers and subscribers and creates the callbas functions. It fuses the message information coming from the two sources into a single mesge that is later sent to the drone with a frequency of 40hz. 
+
+\doxysubsection{Member Function Documentation}
+\mbox{\Hypertarget{classMocap__sim_a6b03ae625cdb68968d328338e02fdb7e}\label{classMocap__sim_a6b03ae625cdb68968d328338e02fdb7e}} 
+\index{Mocap\_sim@{Mocap\_sim}!pub\_odometry@{pub\_odometry}}
+\index{pub\_odometry@{pub\_odometry}!Mocap\_sim@{Mocap\_sim}}
+\doxysubsubsection{\texorpdfstring{pub\_odometry()}{pub\_odometry()}}
+{\footnotesize\ttfamily void Mocap\+\_\+sim\+::pub\+\_\+odometry (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+Method that publishes the position message. 
+
+The documentation for this class was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+controllo/src/mocap\+\_\+sim.\+cpp\end{DoxyCompactItemize}

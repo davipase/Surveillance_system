@@ -1,0 +1,88 @@
+\hypertarget{classOffboardControl}{}\doxysection{Offboard\+Control Class Reference}
+\label{classOffboardControl}\index{OffboardControl@{OffboardControl}}
+
+
+Class that keeps the drone in offboard mode and make it move.  
+
+
+Inheritance diagram for Offboard\+Control\+:\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[height=2.000000cm]{classOffboardControl}
+\end{center}
+\end{figure}
+\doxysubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{classOffboardControl_a8ecc43db30d386042e5d7f7dca80fe6c}{Offboard\+Control}} ()
+\item 
+void \mbox{\hyperlink{classOffboardControl_ac73b35817927b3e7bb72e6c7fb6a9754}{publish\+\_\+control\+\_\+mode}} () const
+\item 
+void \mbox{\hyperlink{classOffboardControl_ade1ff2acd75a4f449ae99bc28a64be47}{publish\+\_\+trajectory\+\_\+setpoint}} () const
+\item 
+void \mbox{\hyperlink{classOffboardControl_a30c32c48dd6b5353af8e64036b929d99}{publish\+\_\+vehicle\+\_\+command}} (uint16\+\_\+t command, float param1=0.\+0, float param2=1.\+0, float param3=0.\+0, float param4=0.\+0, float param5=0.\+0, float param6=0.\+0, float param7=0.\+0) const
+\item 
+void \mbox{\hyperlink{classOffboardControl_ac348065aa1b1d37f2ccca833e495ec77}{send\+\_\+message}} ()
+\item 
+void \mbox{\hyperlink{classOffboardControl_a4d6db5028e290bdb5698a57548e6821b}{arm}} () const
+\item 
+void \mbox{\hyperlink{classOffboardControl_a765d396d68d64893923eeae2f9c3322a}{disarm}} () const
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+Class that keeps the drone in offboard mode and make it move. 
+
+The offboard class is responsible for keeping the drone in offboard mode by publishing to the PX4 Autopilot both the Offboard\+Control\+Mode message and the Trajectory\+Setpoint message. It receives the commands from the node Comando, interpretes it and sends it to the PX4 via the corresponding topic. 
+
+\doxysubsection{Constructor \& Destructor Documentation}
+\mbox{\Hypertarget{classOffboardControl_a8ecc43db30d386042e5d7f7dca80fe6c}\label{classOffboardControl_a8ecc43db30d386042e5d7f7dca80fe6c}} 
+\index{OffboardControl@{OffboardControl}!OffboardControl@{OffboardControl}}
+\index{OffboardControl@{OffboardControl}!OffboardControl@{OffboardControl}}
+\doxysubsubsection{\texorpdfstring{OffboardControl()}{OffboardControl()}}
+{\footnotesize\ttfamily Offboard\+Control\+::\+Offboard\+Control (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+The constructor. This constructor initialize all the Publishers and subscribers with the correct topic, and creates the callback function for the Timesync and the \mbox{\hyperlink{classCommand}{Command}} subscriber. While the former simply stores the timestamp values in the timestamp\+\_\+ variable, the latter decypher the meaning of the command based on the command ID, and sends to the drone the correct message. 
+
+\doxysubsection{Member Function Documentation}
+\mbox{\Hypertarget{classOffboardControl_a4d6db5028e290bdb5698a57548e6821b}\label{classOffboardControl_a4d6db5028e290bdb5698a57548e6821b}} 
+\index{OffboardControl@{OffboardControl}!arm@{arm}}
+\index{arm@{arm}!OffboardControl@{OffboardControl}}
+\doxysubsubsection{\texorpdfstring{arm()}{arm()}}
+{\footnotesize\ttfamily void Offboard\+Control\+::arm (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const}
+
+The method that sends the message to arm the drone \mbox{\Hypertarget{classOffboardControl_a765d396d68d64893923eeae2f9c3322a}\label{classOffboardControl_a765d396d68d64893923eeae2f9c3322a}} 
+\index{OffboardControl@{OffboardControl}!disarm@{disarm}}
+\index{disarm@{disarm}!OffboardControl@{OffboardControl}}
+\doxysubsubsection{\texorpdfstring{disarm()}{disarm()}}
+{\footnotesize\ttfamily void Offboard\+Control\+::disarm (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const}
+
+The method that sends the message to disarm the drone \mbox{\Hypertarget{classOffboardControl_ac73b35817927b3e7bb72e6c7fb6a9754}\label{classOffboardControl_ac73b35817927b3e7bb72e6c7fb6a9754}} 
+\index{OffboardControl@{OffboardControl}!publish\_control\_mode@{publish\_control\_mode}}
+\index{publish\_control\_mode@{publish\_control\_mode}!OffboardControl@{OffboardControl}}
+\doxysubsubsection{\texorpdfstring{publish\_control\_mode()}{publish\_control\_mode()}}
+{\footnotesize\ttfamily void Offboard\+Control\+::publish\+\_\+control\+\_\+mode (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const}
+
+The method that sets and publishes the Offboard\+Control\+Mode messages. \mbox{\Hypertarget{classOffboardControl_ade1ff2acd75a4f449ae99bc28a64be47}\label{classOffboardControl_ade1ff2acd75a4f449ae99bc28a64be47}} 
+\index{OffboardControl@{OffboardControl}!publish\_trajectory\_setpoint@{publish\_trajectory\_setpoint}}
+\index{publish\_trajectory\_setpoint@{publish\_trajectory\_setpoint}!OffboardControl@{OffboardControl}}
+\doxysubsubsection{\texorpdfstring{publish\_trajectory\_setpoint()}{publish\_trajectory\_setpoint()}}
+{\footnotesize\ttfamily void Offboard\+Control\+::publish\+\_\+trajectory\+\_\+setpoint (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const}
+
+The method that sets and publishes the Trajectorysetpoint messages. \mbox{\Hypertarget{classOffboardControl_a30c32c48dd6b5353af8e64036b929d99}\label{classOffboardControl_a30c32c48dd6b5353af8e64036b929d99}} 
+\index{OffboardControl@{OffboardControl}!publish\_vehicle\_command@{publish\_vehicle\_command}}
+\index{publish\_vehicle\_command@{publish\_vehicle\_command}!OffboardControl@{OffboardControl}}
+\doxysubsubsection{\texorpdfstring{publish\_vehicle\_command()}{publish\_vehicle\_command()}}
+{\footnotesize\ttfamily void Offboard\+Control\+::publish\+\_\+vehicle\+\_\+command (\begin{DoxyParamCaption}\item[{uint16\+\_\+t}]{command,  }\item[{float}]{param1 = {\ttfamily 0.0},  }\item[{float}]{param2 = {\ttfamily 1.0},  }\item[{float}]{param3 = {\ttfamily 0.0},  }\item[{float}]{param4 = {\ttfamily 0.0},  }\item[{float}]{param5 = {\ttfamily 0.0},  }\item[{float}]{param6 = {\ttfamily 0.0},  }\item[{float}]{param7 = {\ttfamily 0.0} }\end{DoxyParamCaption}) const}
+
+The method that sets and publishes the commands. \mbox{\Hypertarget{classOffboardControl_ac348065aa1b1d37f2ccca833e495ec77}\label{classOffboardControl_ac348065aa1b1d37f2ccca833e495ec77}} 
+\index{OffboardControl@{OffboardControl}!send\_message@{send\_message}}
+\index{send\_message@{send\_message}!OffboardControl@{OffboardControl}}
+\doxysubsubsection{\texorpdfstring{send\_message()}{send\_message()}}
+{\footnotesize\ttfamily void Offboard\+Control\+::send\+\_\+message (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+This methodcalls both the \mbox{\hyperlink{classOffboardControl_ac73b35817927b3e7bb72e6c7fb6a9754}{publish\+\_\+control\+\_\+mode()}} and the \mbox{\hyperlink{classOffboardControl_ade1ff2acd75a4f449ae99bc28a64be47}{publish\+\_\+trajectory\+\_\+setpoint()}} methods. 
+
+The documentation for this class was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+controllo/src/controllo.\+cpp\end{DoxyCompactItemize}

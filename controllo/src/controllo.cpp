@@ -25,8 +25,8 @@ using namespace rclcpp;
 using namespace px4_msgs::msg;
 
 /** 
-* A struct containing all the information of a point. It is used to record the last position of the drone.
-*/
+ * A struct containing all the information of a point.
+ */
 struct punto{
     float x;
     float y;
@@ -35,8 +35,13 @@ struct punto{
 }last_position;
 
 /** 
-* A function used to set the last position o the drone.
-*/
+ * \relates OffboardControl
+ * A function used to set the last position of the drone.
+ * \param x The last x position of the drone
+ * \param y The last x position of the drone
+ * \param z The last x position of the drone
+ * \param yaw The last yaw value
+ */
 void set_last_pos(float x, float y, float z, float yaw){
     last_position.x=x;
     last_position.y=y;
@@ -45,9 +50,9 @@ void set_last_pos(float x, float y, float z, float yaw){
 }
 
 /** 
-* NOT WORKING
-* A function that calculates the correct yaw of the drone. NOT W
-*/
+ * NOT WORKING
+ * A function that calculates the correct yaw of the drone. NOT W
+ */
 float calcola_yaw(float x0,float y0){
     float dx=x0-last_position.x;
     float dy=y0-last_position.y;
@@ -61,7 +66,8 @@ float calcola_yaw(float x0,float y0){
 
 
 /**
- * The offboard class.
+ * \brief Class that keeps the drone in offboard mode and make it move.
+ * 
  * The offboard class is responsible for keeping the drone in offboard mode by publishing to the PX4 Autopilot
  * both the OffboardControlMode message and the TrajectorySetpoint message.
  * It receives the commands from the node Comando, interpretes it and sends it to the PX4 via the corresponding topic.
@@ -72,90 +78,60 @@ class OffboardControl : public Node
     private:
 
         /** 
-        * An atomic unsigned int variable where to store the timestamp.
-        */
+         * 
+         * An atomic unsigned int variable where to store the timestamp.
+         */
         std::atomic<uint64_t> timestamp_;
 
         /** 
-        * The timer used for the wall_timer. It will execute the send_message() function every X milliseconds.
-        */
+         * The timer used for the wall_timer. It will execute the send_message() function every 100 milliseconds.
+         */
         rclcpp::TimerBase::SharedPtr timer_;
 
         /** 
-        * The VehicleCommand Publisher. It will publish the land and takeoff command to the drone.
-        */ 
+         * The VehicleCommand Publisher. It will publish the land and takeoff command to the drone.
+         */ 
         Publisher<VehicleCommand>::SharedPtr vehicleCommand_;
 
         /** 
-        * The OffboardControlMode Publisher. This message will tell the drone to sstay in offboard mode. Required minimum 10hz.
-        */ 
+         * The OffboardControlMode Publisher. This message will tell the drone to sstay in offboard mode. Required minimum 10hz.
+         */ 
         Publisher<OffboardControlMode>::SharedPtr offboardControlMode_;
 
         /** 
-        * The TrajectorySetpoint Publisher. This message will tell the drone the cordinates to reach. Required minimum 10hz.
-        */ 
+         * The TrajectorySetpoint Publisher. This message will tell the drone the cordinates to reach. Required minimum 10hz.
+         */ 
         Publisher<TrajectorySetpoint>::SharedPtr trajectorySetpoint_;
 
         /** 
-        * The Timesync subscriber. It will receive from the PX4 the timestamp to be stored in the timetamp_ variable and to be set in every message sent.
-        */ 
+         * The Timesync subscriber. It will receive from the PX4 the timestamp to be stored in the timetamp_ variable and to be set in every message sent.
+         */ 
         Subscription<Timesync>::SharedPtr timeSync_;
 
         /** 
-        * The Command subscriber. It will receive the commands to be sent from the node Comando.
-        */ 
+         * The Command subscriber. It will receive the commands to be sent from the node Comando.
+         */ 
         Subscription<Comando>::SharedPtr subComm_;
 
         /** 
-        * The variables where to store the position (x,y,z) and the rotaion (yaw) value.
-        */ 
+         * The variables where to store the position (x,y,z) and the rotaion (yaw) value.
+         */ 
         float x=0,y=0,z=0, yaw=0;
 
         /** 
-        * The takeoff command.
-        */ 
+         * The takeoff command.
+         */ 
         int command=VehicleCommand::VEHICLE_CMD_DO_SET_MODE;
 
 
     public:
 
-        /** 
-        * The method that sets and publishes the OffboardControlMode messages.
-        */ 
-        void publish_control_mode() const;
-        
-        /** 
-        * The method that sets and publishes the Trajectorysetpoint messages.
-        */ 
-        void publish_trajectory_setpoint() const;
-
-        /** 
-        * The method that sets and publishes the commands.
-        */ 
-        void publish_vehicle_command(uint16_t command, float param1=0.0,float param2=1.0,float param3=0.0,
-                                     float param4=0.0,float param5=0.0,float param6=0.0,float param7=0.0) const;
-
-        /** 
-        * This methodcalls both the publish_control_mode() and the publish_trajectory_setpoint() methods.
-        */
-        void send_message();
-
-        /** 
-        * The method that sends the message to arm the drone
-        */
-        void arm() const;
-
-        /** 
-        * The method that sends the message to disarm the drone
-        */
-        void disarm() const;
-
         /**
-        * The constructor.
-        * This constructor initialize all the Publishers and subscribers with the correct topic, and creates the callback function for the
-        * Timesync and the Command subscriber. While the former simply stores the timestamp values in the timestamp_ variable, the latter
-        * decypher the meaning of the command based on the command ID, and sends to the drone the correct message.
-        */
+         * The constructor.
+         * This constructor initialize all the Publishers and subscribers with the correct topic, and creates the callback function for the
+         * Timesync and the Command subscriber. While the former simply stores the timestamp values in the timestamp_ variable, the latter
+         * decypher the meaning of the command based on the command ID, and sends to the drone the correct message.
+         */
         OffboardControl():Node("offboardControls")
         {
             //creation of advestisers and the subscription
@@ -207,6 +183,37 @@ class OffboardControl : public Node
             timer_ = this->create_wall_timer(100ms,std::bind(&OffboardControl::send_message,this));
         }
 
+        /** 
+         * The method that sets and publishes the OffboardControlMode messages.
+         */ 
+        void publish_control_mode() const;
+        
+        /** 
+         * The method that sets and publishes the Trajectorysetpoint messages.
+         */ 
+        void publish_trajectory_setpoint() const;
+
+        /** 
+         * The method that sets and publishes the commands.
+         * \param command the command integer identifier (for takeoff and landing)
+         */ 
+        void publish_vehicle_command(uint16_t command, float param1=0.0,float param2=1.0,float param3=0.0,
+                                     float param4=0.0,float param5=0.0,float param6=0.0,float param7=0.0) const;
+
+        /** 
+         * This methodcalls both the publish_control_mode() and the publish_trajectory_setpoint() methods.
+         */
+        void send_message();
+
+        /** 
+         * The method that sends the message to arm the drone
+         */
+        void arm() const;
+
+        /** 
+         * The method that sends the message to disarm the drone
+         */
+        void disarm() const;
 
 };
 

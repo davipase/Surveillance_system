@@ -38,7 +38,7 @@ add_executable(comando src/comando.cpp)
 ament_target_dependencies(comando rclcpp px4_msgs)
 install(TARGETS comando DESTINATION lib/${PROJECT_NAME})
 
-add_executable(mocap src/prova_mocap.cpp)
+add_executable(mocap src/mocap_sim.cpp)
 ament_target_dependencies(mocap rclcpp px4_msgs gazebo_msgs)
 install(TARGETS mocap DESTINATION lib/${PROJECT_NAME})
 target_link_libraries(mocap ${GAZEBO_LIBRARIES} pthread)

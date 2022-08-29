@@ -31,7 +31,7 @@ link_directories(${GAZEBO_LIBRARY_DIRS})
 list(APPEND CMAKE_CXX_FLAGS "${GAZEBO_CXX_FLAGS}")
 
 
-add_executable(mocap src/mocap.cpp)
+add_executable(mocap src/Gazebo_mocap.cpp)
 ament_target_dependencies(mocap px4_msgs gazebo_msgs rclcpp)
 install(TARGETS mocap DESTINATION lib/${PROJECT_NAME})
 target_link_libraries(mocap ${GAZEBO_LIBRARIES} pthread)

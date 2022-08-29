@@ -43,21 +43,34 @@ struct punto{
 float last_yaw=0;
 
 
+/**
+ * \relates Command 
+ * List of points used to save the control points insertes by the user.
+ */
 list<punto> punti;
 
+
 /**
-* Function used to set the last position of the drone.
+ * \relates Command 
+ * Function used to set the last position of the drone.
+ * \param x The last x position of the drone
+ * \param y The last x position of the drone
+ * \param z The last x position of the drone
+ * \param yaw The last yaw value
 */
 void set_last_position(float x, float y, float z);
 
-/**
-* CURRENTLY NOT IN USE 
-* Function used to calculate the yaw value of the drone depending on its position in the Catmull-Rom curve.
+
+/*! \relates Command
+    CURRENTLY NOT IN USE
+    Function used to calculate the yaw value of the drone depending on its position in the Catmull-Rom curve.
 */
 float calcola_yaw(float x0, float x1, float y0, float y1);
 
+
 /**
- * The Command class.
+ * \brief Class that lets the user input commands for the drone.
+ * 
  * The Command class is a user input module that is used to manually input messages for the system to send to the drone.
  * The commands are identified by an ID which is an integer number that goes from 0 to 5.
  */
@@ -103,6 +116,11 @@ class Command : public Node
         
         /** 
         * Method used to set the message to be sent to the Control node.
+        * \param c the command identifier
+        * \param x the value of the x coordinate
+        * \param y the value of the y coordinate
+        * \param z the value of the z coofdinate
+        * \param yaw the value of the yaw parameter
         */
         void set_msg( int c, float x, float y, float z,float yaw);
 

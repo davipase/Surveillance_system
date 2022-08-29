@@ -1,20 +1,3 @@
-/*
- * Copyright (C) 2012 Open Source Robotics Foundation
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *     http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- *
-*/
-
 #include <iostream>
 #include <gazebo/transport/transport.hh>
 #include <gazebo/msgs/msgs.hh>
@@ -29,16 +12,38 @@ using namespace rclcpp;
 using namespace px4_msgs::msg;
 
 int i=0;
+
+/**
+ * \relates Gazebo_mocap_publisher
+ * Message that is going to be sent to the mocap_sim node
+ */
 VehicleVisualOdometry msg;
 
+/**
+ * \relates Gazebo_mocap_publisher
+ * Pointer to an instance of the Gazebo_mocap_publisher Class.
+ */
+Gazebo_mocap_publisher* gaz_pub = NULL;
+
+/**
+* \relates Gazebo_mocap_publisher
+* Function used to parse the string to extrapolates the value of x,y,z.
+* \param _msg the string retrieved from Gazebo cotaining the pose of all the rigid bodies in the simulation.
+*/
+void cb(ConstPosesStampedPtr &_msg);
 
 
-class MocapPublisher : public Node{
+/** \brief Class that retrive position information from Gazebo.
+*
+* The Gazebo_mocap_publisher class subscribes to Gazebo and retrieve the position data of the drone, data that is then
+* sent to the mocap_sim node.
+*/
+class Gazebo_mocap_publisher : public Node{
   private:
     Publisher<VehicleVisualOdometry>::SharedPtr pub_;
 
   public:
-    MocapPublisher():Node("pubb"){
+    Gazebo_mocap_publisher():Node("pubb"){
       pub_ = this->create_publisher<VehicleVisualOdometry>("/mocap_data",10);
     }
 
@@ -47,7 +52,28 @@ class MocapPublisher : public Node{
     }
 };
 
-MocapPublisher* mp = NULL;
+
+
+
+int main(int argc, char* argv[])
+{
+  cout << "Starting mocap node..." << endl;
+  rclcpp::init(argc, argv); //initializing ros2
+  cout<<"mocap node started"<<endl;
+  gaz_pub = new Gazebo_mocap_publisher();
+
+  gazebo::client::setup(argc, argv);
+  gazebo::transport::NodePtr node(new gazebo::transport::Node());
+  node->Init();
+  gazebo::transport::SubscriberPtr sub = node->Subscribe("/gazebo/default/pose/info", cb);
+
+
+  rclcpp::spin(std::make_shared<Gazebo_mocap_publisher>()); //creating instance of class and spinning
+  while(1);
+  gazebo::client::shutdown();
+  rclcpp::shutdown();
+  return 0;
+}
 
 
 void cb(ConstPosesStampedPtr &_msg)
@@ -127,54 +153,6 @@ void cb(ConstPosesStampedPtr &_msg)
   msg.q[2] = stof(oz);
   msg.q[3] = stof(w);
   // msg.q = q;
-  mp->publish_mocap();
+  gaz_pub->publish_mocap();
 
-}
-
-
-
-
-/////////////////////////////////////////////////
-int main(int argc, char* argv[])
-{
-  // // Load gazebo
-  // cout<<"A";
-  // init(argc, argv);
-  // cout<<"B";
-  // gazebo::client::setup(argc, argv);
-
-  // // Create our node for communication
-  // gazebo::transport::NodePtr node(new gazebo::transport::Node());
-  // node->Init();
-  // // Listen to Gazebo world_stats topic
-  //  gazebo::transport::SubscriberPtr sub = node->Subscribe("/gazebo/default/pose/info", cb);
-
-
-  // spin(std::make_shared<MocapPublisher>());
-  // while(1)
-  // // Make sure to shut everything down.
-  // gazebo::client::shutdown();
-  // shutdown();
-  // return 0;
-
-
-
-  cout << "Starting mocap node..." << endl;
-	rclcpp::init(argc, argv); //initializing ros2
-  cout<<"mocap node started"<<endl;
-  mp = new MocapPublisher();
-
-  gazebo::client::setup(argc, argv);
-  gazebo::transport::NodePtr node(new gazebo::transport::Node());
-  node->Init();
-  gazebo::transport::SubscriberPtr sub = node->Subscribe("/gazebo/default/pose/info", cb);
-
-
-	rclcpp::spin(std::make_shared<MocapPublisher>()); //creating instance of class and spinning
-  while(1);
-  gazebo::client::shutdown();
-  rclcpp::shutdown();
-  return 0;
-
-  
 }

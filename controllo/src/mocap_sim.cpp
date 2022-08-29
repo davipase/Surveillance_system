@@ -24,10 +24,11 @@
 // #include <gazebo/msg/poses_stamped.hpp>
 // #include <geometry_msgs/msg/pose_stamped_array.hpp>
 
+//This offsets are based on the spawning position of the drone if Gazebo.
+//if it is different that these values, change them accordingly.
 #define OFFSET_X 1.009999
 #define OFFSET_Y 0.9799
 #define OFFSET_Z 0.1044
-
 
 
 using namespace std;
@@ -37,27 +38,59 @@ using namespace px4_msgs::msg;
 
 int i=0;
 
-
-class Prova_mocap : public Node{
+/** \brief Class that simulates a motion capture system in gazebo.
+*
+* The Mocap_sim class is able to simulate a Motion Capture system inside the Gazebo simulation.
+* It gets the position information from the Gazebo_mocap node and the rotation data from the odometry topic of the PX4.
+* It then relays the position information to the drone.
+* For this jnode to work it is compulsory to HANGE THE PX4-AUTOPILOT PARAMETERS accordingly (check for instruction in the README file).
+*/
+class Mocap_sim : public Node{
     private:
+
+        /** 
+        * An atomic usigned int variable where to store the timestamp.
+        */
         atomic<uint64_t> timestamp_;
+
+        /** 
+        * The timer used for the wall_timer. It will execute the pub_odometry() function every 25 milliseconds.
+        */
         rclcpp::TimerBase::SharedPtr timer_;
+
+        /** 
+        * Publisher that sends the position data to the PX4.
+        */
+        Publisher<VehicleVisualOdometry>::SharedPtr pub_mocap_odometry;
+
+        /** 
+        * The Timesync subscriber. It will receive from the PX4 the timestamp to be stored in the timetamp_ variable and to be set in every message sent.
+        */ 
         Subscription<Timesync>::SharedPtr timeSync_;
 
+        /** 
+        * Subscriber that receives rotaion information (and other parameters that stay the same) from the PX4.
+        */
         Subscription<VehicleOdometry>::SharedPtr sub_mocap_odometry;
-        Subscription<VehicleVisualOdometry>::SharedPtr sub_mocap_data;
-        Publisher<VehicleVisualOdometry>::SharedPtr pub_mocap_odometry;
+
+        /** 
+        * Subscriber that receives the position data from the Gazebo_mocap node.
+        */
+        Subscription<VehicleVisualOdometry>::SharedPtr sub_position_data;
+
+        /** 
+        * Variable where the message information is stored.
+        */
         VehicleVisualOdometry msg;
 
-        // VehicleVisualOdometry msg;
-
-        // Subscription<geometry_msgs::msg::PoseStamped>::SharedPtr sub_mocap_odometry_gz;
-
-        // Publisher<VehicleMocapOdometry>::SharedPtr pub_mocap_odometry;
-        // VehicleMocapOdometry msg;
-
     public:
-        Prova_mocap():Node("odometry_prova"){
+        /** 
+        * Mocap_sim constructor.
+        * it initialize the publishers and subscribers and creates the callbas functions.
+        * It fuses the message information coming from the two sources into a single mesge that is later sent to the drone
+        * with a frequency of 40hz.
+        */
+        Mocap_sim():Node("odometry_prova"){
             timeSync_=this->create_subscription<Timesync>("/fmu/timesync/out", 10,[this](const Timesync::UniquePtr msg) {
 			    timestamp_.store(msg->timestamp);
 			});
@@ -87,33 +120,21 @@ class Prova_mocap : public Node{
                 }else i++;
             }); //TO CHANGE UNCOMMENT
 
-            sub_mocap_data = this->create_subscription<VehicleVisualOdometry>("/mocap_data",10,[this](const VehicleVisualOdometry::UniquePtr msg){
+            sub_position_data = this->create_subscription<VehicleVisualOdometry>("/mocap_data",10,[this](const VehicleVisualOdometry::UniquePtr msg){
                 this->msg.x = (msg->x - OFFSET_X);
                 this->msg.y = -(msg->y - OFFSET_Y);
                 this->msg.z = -(msg->z - OFFSET_Z);
-
-                // this->msg.x = (msg->y - OFFSET_Y);
-                // this->msg.y = (msg->x - OFFSET_X);
-                // this->msg.z = -(msg->z - OFFSET_Z);
             });
 
 
             pub_mocap_odometry = this->create_publisher<VehicleVisualOdometry>("/fmu/vehicle_visual_odometry/in",10);
-            timer_ = this->create_wall_timer(25ms,std::bind(&Prova_mocap::pub_odometry,this));
-
-            // pub_mocap_odometry = this->create_publisher<VehicleMocapOdometry>("/fmu/vehicle_mocap_odometry/in",10);
-            // timer_ = this->create_wall_timer(25ms,std::bind(&Prova_mocap::pub_odometry,this));
-
+            timer_ = this->create_wall_timer(25ms,std::bind(&Mocap_sim::pub_odometry,this));
         }
 
-        void pub_odometry(){
-            // msg.timestamp=timestamp_.load();
-            // msg.local_frame=14; //MAV_FRAME_MOCAP_NED
-            // msg.x=1;
-            // msg.y=1;
-            // msg.z=0;
-            pub_mocap_odometry->publish(msg);
-        }
+        /** 
+        * Method that publishes the position message.
+        */
+        void pub_odometry();
 
 
 };
@@ -123,7 +144,13 @@ int main(int argc, char* argv[]){
     cout << "Starting mocap prova..." << endl;
 	rclcpp::init(argc, argv); //initializing ros2
     cout<<"mocap prova node started"<<endl;
-	rclcpp::spin(std::make_shared<Prova_mocap>()); //creating instance of class and spinning
+	rclcpp::spin(std::make_shared<Mocap_sim>()); //creating instance of class and spinning
     rclcpp::shutdown();
     return 0;
+}
+
+
+
+void Mocap_sim::pub_odometry(){
+    pub_mocap_odometry->publish(msg);
 }

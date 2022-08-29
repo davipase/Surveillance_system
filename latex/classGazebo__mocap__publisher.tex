@@ -1,0 +1,56 @@
+\hypertarget{classGazebo__mocap__publisher}{}\doxysection{Gazebo\+\_\+mocap\+\_\+publisher Class Reference}
+\label{classGazebo__mocap__publisher}\index{Gazebo\_mocap\_publisher@{Gazebo\_mocap\_publisher}}
+
+
+Class that retrive position information from Gazebo.  
+
+
+Inheritance diagram for Gazebo\+\_\+mocap\+\_\+publisher\+:\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[height=2.000000cm]{classGazebo__mocap__publisher}
+\end{center}
+\end{figure}
+\doxysubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\Hypertarget{classGazebo__mocap__publisher_acb2ee03e7389cb668a82418e5f976c20}\label{classGazebo__mocap__publisher_acb2ee03e7389cb668a82418e5f976c20}} 
+void {\bfseries publish\+\_\+mocap} ()
+\end{DoxyCompactItemize}
+\doxysubsection*{Related Functions}
+(Note that these are not member functions.) \begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{classGazebo__mocap__publisher}{Gazebo\+\_\+mocap\+\_\+publisher}} $\ast$ \mbox{\hyperlink{classGazebo__mocap__publisher_ab47a1f9af103d4bab152134031b8ae5c}{gaz\+\_\+pub}} = NULL
+\item 
+void \mbox{\hyperlink{classGazebo__mocap__publisher_a3ba1f167e2eb3c5ead1e943e1db123f3}{cb}} (Const\+Poses\+Stamped\+Ptr \&\+\_\+msg)
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+Class that retrive position information from Gazebo. 
+
+The \mbox{\hyperlink{classGazebo__mocap__publisher}{Gazebo\+\_\+mocap\+\_\+publisher}} class subscribes to Gazebo and retrieve the position data of the drone, data that is then sent to the mocap\+\_\+sim node. 
+
+\doxysubsection{Friends And Related Function Documentation}
+\mbox{\Hypertarget{classGazebo__mocap__publisher_a3ba1f167e2eb3c5ead1e943e1db123f3}\label{classGazebo__mocap__publisher_a3ba1f167e2eb3c5ead1e943e1db123f3}} 
+\index{Gazebo\_mocap\_publisher@{Gazebo\_mocap\_publisher}!cb@{cb}}
+\index{cb@{cb}!Gazebo\_mocap\_publisher@{Gazebo\_mocap\_publisher}}
+\doxysubsubsection{\texorpdfstring{cb()}{cb()}}
+{\footnotesize\ttfamily void cb (\begin{DoxyParamCaption}\item[{Const\+Poses\+Stamped\+Ptr \&}]{\+\_\+msg }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [related]}}
+
+Function used to parse the string to extrapolates the value of x,y,z. 
+\begin{DoxyParams}{Parameters}
+{\em \+\_\+msg} & the string retrieved from Gazebo cotaining the pose of all the rigid bodies in the simulation. \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{classGazebo__mocap__publisher_ab47a1f9af103d4bab152134031b8ae5c}\label{classGazebo__mocap__publisher_ab47a1f9af103d4bab152134031b8ae5c}} 
+\index{Gazebo\_mocap\_publisher@{Gazebo\_mocap\_publisher}!gaz\_pub@{gaz\_pub}}
+\index{gaz\_pub@{gaz\_pub}!Gazebo\_mocap\_publisher@{Gazebo\_mocap\_publisher}}
+\doxysubsubsection{\texorpdfstring{gaz\_pub}{gaz\_pub}}
+{\footnotesize\ttfamily \mbox{\hyperlink{classGazebo__mocap__publisher}{Gazebo\+\_\+mocap\+\_\+publisher}}$\ast$ gaz\+\_\+pub = NULL\hspace{0.3cm}{\ttfamily [related]}}
+
+Pointer to an instance of the \mbox{\hyperlink{classGazebo__mocap__publisher}{Gazebo\+\_\+mocap\+\_\+publisher}} Class. 
+
+The documentation for this class was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+mocap/src/Gazebo\+\_\+mocap.\+cpp\end{DoxyCompactItemize}

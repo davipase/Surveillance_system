@@ -1,0 +1,102 @@
+\hypertarget{classCommand}{}\doxysection{Command Class Reference}
+\label{classCommand}\index{Command@{Command}}
+
+
+Class that lets the user input commands for the drone.  
+
+
+Inheritance diagram for Command\+:\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[height=2.000000cm]{classCommand}
+\end{center}
+\end{figure}
+\doxysubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{classCommand_a18df2d81039392daeb0b78c346a70537}{Command}} ()
+\item 
+void \mbox{\hyperlink{classCommand_a70dbec04a15e4831d57b6753567116cb}{send\+\_\+message}} ()
+\item 
+void \mbox{\hyperlink{classCommand_a810bd42b7849f6c32bcf7260041c09ab}{send\+\_\+trajectory}} ()
+\item 
+void \mbox{\hyperlink{classCommand_ab870ce14f2888cd58522cf28fec2b8c8}{set\+\_\+msg}} (int c, float x, float y, float z, float yaw)
+\item 
+void \mbox{\hyperlink{classCommand_a4bcf0582f2ae8bdf98d3fb76d7af73d1}{print\+\_\+message}} ()
+\end{DoxyCompactItemize}
+\doxysubsection*{Related Functions}
+(Note that these are not member functions.) \begin{DoxyCompactItemize}
+\item 
+list$<$ \mbox{\hyperlink{structpunto}{punto}} $>$ \mbox{\hyperlink{classCommand_a7457896566842b368aad8f07e0d36bb1}{punti}}
+\item 
+void \mbox{\hyperlink{classCommand_a50ecdbd0b995540a40a6fa49113d32ea}{set\+\_\+last\+\_\+position}} (float x, float y, float z)
+\item 
+float \mbox{\hyperlink{classCommand_ac63e812398ee08fcc8512b8a573df411}{calcola\+\_\+yaw}} (float x0, float x1, float y0, float y1)
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+Class that lets the user input commands for the drone. 
+
+The \mbox{\hyperlink{classCommand}{Command}} class is a user input module that is used to manually input messages for the system to send to the drone. The commands are identified by an ID which is an integer number that goes from 0 to 5. 
+
+\doxysubsection{Constructor \& Destructor Documentation}
+\mbox{\Hypertarget{classCommand_a18df2d81039392daeb0b78c346a70537}\label{classCommand_a18df2d81039392daeb0b78c346a70537}} 
+\index{Command@{Command}!Command@{Command}}
+\index{Command@{Command}!Command@{Command}}
+\doxysubsubsection{\texorpdfstring{Command()}{Command()}}
+{\footnotesize\ttfamily Command\+::\+Command (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+The class constructor. It simply initialize the \mbox{\hyperlink{classCommand}{Command}} publisher. 
+
+\doxysubsection{Member Function Documentation}
+\mbox{\Hypertarget{classCommand_a4bcf0582f2ae8bdf98d3fb76d7af73d1}\label{classCommand_a4bcf0582f2ae8bdf98d3fb76d7af73d1}} 
+\index{Command@{Command}!print\_message@{print\_message}}
+\index{print\_message@{print\_message}!Command@{Command}}
+\doxysubsubsection{\texorpdfstring{print\_message()}{print\_message()}}
+{\footnotesize\ttfamily void Command\+::print\+\_\+message (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+Methos used to print the message for debugging purpose. \mbox{\Hypertarget{classCommand_a70dbec04a15e4831d57b6753567116cb}\label{classCommand_a70dbec04a15e4831d57b6753567116cb}} 
+\index{Command@{Command}!send\_message@{send\_message}}
+\index{send\_message@{send\_message}!Command@{Command}}
+\doxysubsubsection{\texorpdfstring{send\_message()}{send\_message()}}
+{\footnotesize\ttfamily void Command\+::send\+\_\+message (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+Method invoked whenever the user insert a new setpoint to be sent to the drone. It calls the \mbox{\hyperlink{classCommand_a50ecdbd0b995540a40a6fa49113d32ea}{set\+\_\+last\+\_\+position()}} function and sends the position to the control node \mbox{\Hypertarget{classCommand_a810bd42b7849f6c32bcf7260041c09ab}\label{classCommand_a810bd42b7849f6c32bcf7260041c09ab}} 
+\index{Command@{Command}!send\_trajectory@{send\_trajectory}}
+\index{send\_trajectory@{send\_trajectory}!Command@{Command}}
+\doxysubsubsection{\texorpdfstring{send\_trajectory()}{send\_trajectory()}}
+{\footnotesize\ttfamily void Command\+::send\+\_\+trajectory (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+The send\+\_\+trajectory method. This method is called when the user insert a serie of point for the drone to follow (or uses the test points). It creates a Catmull-\/\+Rom curve interpolating the control points and sends int\+\_\+points\+\_\+num intermediate points to the drone one after the other. \mbox{\Hypertarget{classCommand_ab870ce14f2888cd58522cf28fec2b8c8}\label{classCommand_ab870ce14f2888cd58522cf28fec2b8c8}} 
+\index{Command@{Command}!set\_msg@{set\_msg}}
+\index{set\_msg@{set\_msg}!Command@{Command}}
+\doxysubsubsection{\texorpdfstring{set\_msg()}{set\_msg()}}
+{\footnotesize\ttfamily void Command\+::set\+\_\+msg (\begin{DoxyParamCaption}\item[{int}]{c,  }\item[{float}]{x,  }\item[{float}]{y,  }\item[{float}]{z,  }\item[{float}]{yaw }\end{DoxyParamCaption})}
+
+Method used to set the message to be sent to the Control node. 
+
+\doxysubsection{Friends And Related Function Documentation}
+\mbox{\Hypertarget{classCommand_ac63e812398ee08fcc8512b8a573df411}\label{classCommand_ac63e812398ee08fcc8512b8a573df411}} 
+\index{Command@{Command}!calcola\_yaw@{calcola\_yaw}}
+\index{calcola\_yaw@{calcola\_yaw}!Command@{Command}}
+\doxysubsubsection{\texorpdfstring{calcola\_yaw()}{calcola\_yaw()}}
+{\footnotesize\ttfamily float calcola\+\_\+yaw (\begin{DoxyParamCaption}\item[{float}]{x0,  }\item[{float}]{x1,  }\item[{float}]{y0,  }\item[{float}]{y1 }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [related]}}
+
+CURRENTLY NOT IN USE Function used to calculate the yaw value of the drone depending on its position in the Catmull-\/\+Rom curve. \mbox{\Hypertarget{classCommand_a7457896566842b368aad8f07e0d36bb1}\label{classCommand_a7457896566842b368aad8f07e0d36bb1}} 
+\index{Command@{Command}!punti@{punti}}
+\index{punti@{punti}!Command@{Command}}
+\doxysubsubsection{\texorpdfstring{punti}{punti}}
+{\footnotesize\ttfamily list$<$\mbox{\hyperlink{structpunto}{punto}}$>$ punti\hspace{0.3cm}{\ttfamily [related]}}
+
+List of points used to save the control points insertes by the user. \mbox{\Hypertarget{classCommand_a50ecdbd0b995540a40a6fa49113d32ea}\label{classCommand_a50ecdbd0b995540a40a6fa49113d32ea}} 
+\index{Command@{Command}!set\_last\_position@{set\_last\_position}}
+\index{set\_last\_position@{set\_last\_position}!Command@{Command}}
+\doxysubsubsection{\texorpdfstring{set\_last\_position()}{set\_last\_position()}}
+{\footnotesize\ttfamily void set\+\_\+last\+\_\+position (\begin{DoxyParamCaption}\item[{float}]{x,  }\item[{float}]{y,  }\item[{float}]{z }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [related]}}
+
+Function used to set the last position of the drone. 
+
+The documentation for this class was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+controllo/src/comando.\+cpp\end{DoxyCompactItemize}
