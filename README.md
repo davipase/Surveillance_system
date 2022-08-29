@@ -24,7 +24,12 @@ git clone git https://github.com/PX4/px4_msgs.git ~/UAV_manager/src/px4_msgs
 git clone git https://github.com/PX4/px4_ros_com.git ~/UAV_manager/src/px4_ros_com
 git clone https://github.com/chen0040/cpp-spline.git ~/UAV_manager/src/cpp-spline
 ```
-**Step 3: Build the project**
+**Step 3: Move the message "Comando.msg" into the msg folder
+```sh
+cd ~/UAV_manager/src
+mv Comando.msg px4_msgs/msg/Comando.msg
+```
+**Step 4: Build the project**
 ```sh
 cd ~/UAV_manager
 colcon build
