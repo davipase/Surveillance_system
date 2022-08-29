@@ -1,0 +1,154 @@
+\label{index_md_README}%
+\Hypertarget{index_md_README}%
+ This project enables the simulation of a UAV with a PX4 Autopilot both in the gazebo simulated environment and using an Optitrack motion capture system. Necessary Ubuntu 20.\+04 or later.\hypertarget{index_autotoc_md1}{}\doxysection{Requirements\+:}\label{index_autotoc_md1}
+
+\begin{DoxyItemize}
+\item \mbox{[}ROS2 foxy\mbox{]} (desktop-\/full recommended)
+\item \mbox{[}ROS noetic\mbox{]} (for the simulated mocap node only) (desktop-\/full recommended)
+\item \href{https://www.oracle.com/java/technologies/downloads/\#java11>}{\texttt{ Java SDK 11}}
+\item \href{https://docs.px4.io/main/en/ros/ros2_comm.html\#install-fast-dds>}{\texttt{ Fast DDS}}, which include Fast\+DDS, Fast-\/\+RTPS-\/gen
+\item a separated \href{https://docs.px4.io/main/en/dev_setup/building_px4.html>}{\texttt{ PX4 Autopilot}} package, to which it is necessary to change the COM\+\_\+\+RCL\+\_\+\+EXCEPT parameter to 4
+\end{DoxyItemize}\hypertarget{index_autotoc_md2}{}\doxysection{How to use}\label{index_autotoc_md2}
+Regardless of the use case, two more packages are necessary dor the correct functioning of the system\+: the PX4\+\_\+msgs, PX4\+\_\+ros\+\_\+com and cpp-\/spline package
+
+{\bfseries{Step 1\+: Clone the repository\+:}} 
+\begin{DoxyCode}{0}
+\DoxyCodeLine{mkdir -\/p \string~/UAV\_manager/src \&\& cd UAV\_manager/src}
+\DoxyCodeLine{git clone https://github.com/davipase/Surveillance\_system.git}
+
+\end{DoxyCode}
+ {\bfseries{Step 2\+: Clone additional packages\+:}} 
+\begin{DoxyCode}{0}
+\DoxyCodeLine{git clone git https://github.com/PX4/px4\_msgs.git \string~/UAV\_manager/src/px4\_msgs}
+\DoxyCodeLine{git clone git https://github.com/PX4/px4\_ros\_com.git \string~/UAV\_manager/src/px4\_ros\_com}
+\DoxyCodeLine{git clone https://github.com/chen0040/cpp-\/spline.git \string~/UAV\_manager/src/cpp-\/spline}
+
+\end{DoxyCode}
+ $\ast$$\ast$\+Step 3\+: Move the message \char`\"{}\+Comando.\+msg\char`\"{} into the msg folder 
+\begin{DoxyCode}{0}
+\DoxyCodeLine{cd \string~/UAV\_manager/src}
+\DoxyCodeLine{mv Comando.msg px4\_msgs/msg/Comando.msg}
+
+\end{DoxyCode}
+ {\bfseries{Step 4\+: Build the project}} 
+\begin{DoxyCode}{0}
+\DoxyCodeLine{cd \string~/UAV\_manager}
+\DoxyCodeLine{colcon build}
+\DoxyCodeLine{source install/setup.bash}
+
+\end{DoxyCode}
+
+
+{\bfseries{Now the project is ready to be used.}} All the following commands must be executed on a separate shell window.\hypertarget{index_autotoc_md3}{}\doxysubsubsection{Tab 1\+: px4 simulation}\label{index_autotoc_md3}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{cd \string~/PX4-\/Autopilot}
+\DoxyCodeLine{colcon build}
+\DoxyCodeLine{source install/setup.bash}
+\DoxyCodeLine{make px4\_sitl\_rtps gazebo}
+
+\end{DoxyCode}
+ \begin{quote}
+Note\+: line 2 needs to be executed only the first time the PX4-\/\+Autopilot package is build or after it is modified \end{quote}
+\hypertarget{index_autotoc_md4}{}\doxysubsubsection{Tab 2\+: micrortps}\label{index_autotoc_md4}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{cd \string~/UAV\_manager}
+\DoxyCodeLine{colcon build}
+\DoxyCodeLine{source install/setup.bash}
+\DoxyCodeLine{micrortps\_agent -\/t UDP}
+
+\end{DoxyCode}
+\hypertarget{index_autotoc_md5}{}\doxysubsubsection{Tab 3\+: offboard node}\label{index_autotoc_md5}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{cd \string~/UAV\_manager}
+\DoxyCodeLine{source install/setup.bash}
+\DoxyCodeLine{ros2 run controllo offboard}
+
+\end{DoxyCode}
+\hypertarget{index_autotoc_md6}{}\doxysubsubsection{Tab 4\+: input node}\label{index_autotoc_md6}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{cd \string~/UAV\_manager}
+\DoxyCodeLine{source install/setup.bash}
+\DoxyCodeLine{ros2 run controllo comando}
+
+\end{DoxyCode}
+\hypertarget{index_autotoc_md7}{}\doxysubsection{Simulated mocap node}\label{index_autotoc_md7}
+With a few adjustments, it is possible to simulate a Motion Captur system inside the gaebo simulation
+
+In the PX4\+\_\+\+Autopoiolot package\+:
+\begin{DoxyItemize}
+\item Change the {\ttfamily SYS\+\_\+\+MC\+\_\+\+EST\+\_\+\+GROUP} parameter to 2
+\item Change the {\ttfamily EKF2\+\_\+\+AID\+\_\+\+MASK} parameter to 24
+\item Change the {\ttfamily EKF2\+\_\+\+HGT\+\_\+\+MODE} to 3
+\end{DoxyItemize}
+
+This will change the source for the position data to the mocap node. Then, in addition to tab 1..4, two more windows are needed\+:\hypertarget{index_autotoc_md8}{}\doxysubsubsection{Tab 5\+: Mocap data}\label{index_autotoc_md8}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{cd \string~/UAV\_manager}
+\DoxyCodeLine{source install/setup.bash}
+\DoxyCodeLine{ros2 run mocap mocap}
+
+\end{DoxyCode}
+\hypertarget{index_autotoc_md9}{}\doxysubsubsection{Tab 6\+: Mocap publisher}\label{index_autotoc_md9}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{cd \string~/UAV\_manager}
+\DoxyCodeLine{source install/setup.bash}
+\DoxyCodeLine{ros2 run controllo mocap}
+
+\end{DoxyCode}
+\hypertarget{index_autotoc_md10}{}\doxysubsection{Optitrack mocap system}\label{index_autotoc_md10}
+It is possible to replace the simulated Mocap node with a real optitrack system. To do so, it is necessary for the optitrack system and the computer to be connected to the same Wi-\/\+Fi connection and to install on your machine both ROS2 Foxy and ROS noetic
+
+{\bfseries{Step 1\+: Download the ROS1 bridge}} 
+\begin{DoxyCode}{0}
+\DoxyCodeLine{cd \string~/UAV\_manager/src}
+\DoxyCodeLine{git clone https://github.com/ros2/ros1\_bridge.git \string~/UAV\_manager/src/ros1\_bridge}
+
+\end{DoxyCode}
+
+
+{\bfseries{Step 2\+: download, build and start the \mbox{[}Natnet\mbox{]} package following the README instructions}}
+
+{\bfseries{Step 3\+: build the workspace}} \begin{quote}
+Note\+: in the following lines of code it is assumed that you installed ROS noetic and ROS2 Foxy to the default locations {\ttfamily /opt/ros/noetic} and {\ttfamily /opt/ros/foxy}. Otherwise, change them with the correct install path. \end{quote}
+
+\begin{DoxyItemize}
+\item build the ROS2 packages 
+\begin{DoxyCode}{0}
+\DoxyCodeLine{cd \string~/UAV\_manager}
+\DoxyCodeLine{colcon build -\/-\/symlink-\/install -\/-\/packages-\/skip ros1\_bridge}
+\DoxyCodeLine{surce /opt/ros/noetic/setup.bash}
+
+\end{DoxyCode}
+
+\item build the ROS1 bridge 
+\begin{DoxyCode}{0}
+\DoxyCodeLine{surce /opt/ros/foxy/setup.bash}
+\DoxyCodeLine{colcon build -\/-\/symlink-\/install -\/-\/packages-\/skip ros1\_bridge}
+\DoxyCodeLine{source install/setup.bash}
+
+\end{DoxyCode}
+ {\bfseries{Step 4\+: start the nodes}}
+\item Start tabs 1..4 (don\textquotesingle{}t execute {\ttfamily colcon build} while starting tab 2)
+\item Run the \mbox{[}Natnet\mbox{]} node as shown in the README
+\item Run the ROS1 bridge 
+\begin{DoxyCode}{0}
+\DoxyCodeLine{source install/setup.bash}
+\DoxyCodeLine{ros2 run ros1\_bridge dynamic\_bridge}
+
+\end{DoxyCode}
+ \begin{quote}
+Note\+: the {\itshape ros1\+\_\+bridge} package needs an active roscore master to run. In this case, the roscore is already running from the {\itshape roslaunch} command used to start the Natnet node. If you want to run the bridge alone, remenber to run {\ttfamily roscore} in a different tab \end{quote}
+
+\item in one more tab, run the optitrack\+\_\+mocap node with the command 
+\begin{DoxyCode}{0}
+\DoxyCodeLine{ros2 run optitrack\_mocap optitrack\_mocap}
+
+\end{DoxyCode}
+ 
+\end{DoxyItemize}

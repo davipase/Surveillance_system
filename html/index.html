@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=11"/>
 <meta name="generator" content="Doxygen 1.9.6"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>My Project: Main Page</title>
+<title>My Project: SURVEILLANCE SYSTEM - UAV MANAGER</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -68,10 +68,108 @@ $(function() {
 </div>
 </div>
 
-<div class="header">
-  <div class="headertitle"><div class="title">My Project Documentation</div></div>
+<div><div class="header">
+  <div class="headertitle"><div class="title">SURVEILLANCE SYSTEM - UAV MANAGER </div></div>
 </div><!--header-->
 <div class="contents">
+<div class="textblock"><p ><a class="anchor" id="md_README"></a> This project enables the simulation of a UAV with a PX4 Autopilot both in the gazebo simulated environment and using an Optitrack motion capture system. Necessary Ubuntu 20.04 or later.</p>
+<h1><a class="anchor" id="autotoc_md1"></a>
+Requirements:</h1>
+<ul>
+<li>[ROS2 foxy] (desktop-full recommended)</li>
+<li>[ROS noetic] (for the simulated mocap node only) (desktop-full recommended)</li>
+<li><a href="https://www.oracle.com/java/technologies/downloads/#java11&gt;">Java SDK 11</a></li>
+<li><a href="https://docs.px4.io/main/en/ros/ros2_comm.html#install-fast-dds&gt;">Fast DDS</a>, which include FastDDS, Fast-RTPS-gen</li>
+<li>a separated <a href="https://docs.px4.io/main/en/dev_setup/building_px4.html&gt;">PX4 Autopilot</a> package, to which it is necessary to change the COM_RCL_EXCEPT parameter to 4</li>
+</ul>
+<h1><a class="anchor" id="autotoc_md2"></a>
+How to use</h1>
+<p >Regardless of the use case, two more packages are necessary dor the correct functioning of the system: the PX4_msgs, PX4_ros_com and cpp-spline package</p>
+<p ><b>Step 1: Clone the repository:</b> </p><div class="fragment"><div class="line">mkdir -p ~/UAV_manager/src &amp;&amp; cd UAV_manager/src</div>
+<div class="line">git clone https://github.com/davipase/Surveillance_system.git</div>
+</div><!-- fragment --><p> <b>Step 2: Clone additional packages:</b> </p><div class="fragment"><div class="line">git clone git https://github.com/PX4/px4_msgs.git ~/UAV_manager/src/px4_msgs</div>
+<div class="line">git clone git https://github.com/PX4/px4_ros_com.git ~/UAV_manager/src/px4_ros_com</div>
+<div class="line">git clone https://github.com/chen0040/cpp-spline.git ~/UAV_manager/src/cpp-spline</div>
+</div><!-- fragment --><p> **Step 3: Move the message "Comando.msg" into the msg folder </p><div class="fragment"><div class="line">cd ~/UAV_manager/src</div>
+<div class="line">mv Comando.msg px4_msgs/msg/Comando.msg</div>
+</div><!-- fragment --><p> <b>Step 4: Build the project</b> </p><div class="fragment"><div class="line">cd ~/UAV_manager</div>
+<div class="line">colcon build</div>
+<div class="line">source install/setup.bash</div>
+</div><!-- fragment --><p ><b>Now the project is ready to be used.</b> All the following commands must be executed on a separate shell window.</p>
+<h3><a class="anchor" id="autotoc_md3"></a>
+Tab 1: px4 simulation</h3>
+<div class="fragment"><div class="line">cd ~/PX4-Autopilot</div>
+<div class="line">colcon build</div>
+<div class="line">source install/setup.bash</div>
+<div class="line">make px4_sitl_rtps gazebo</div>
+</div><!-- fragment --> <blockquote class="doxtable">
+<p >&zwj;Note: line 2 needs to be executed only the first time the PX4-Autopilot package is build or after it is modified </p>
+</blockquote>
+<h3><a class="anchor" id="autotoc_md4"></a>
+Tab 2: micrortps</h3>
+<div class="fragment"><div class="line">cd ~/UAV_manager</div>
+<div class="line">colcon build</div>
+<div class="line">source install/setup.bash</div>
+<div class="line">micrortps_agent -t UDP</div>
+</div><!-- fragment --><h3><a class="anchor" id="autotoc_md5"></a>
+Tab 3: offboard node</h3>
+<div class="fragment"><div class="line">cd ~/UAV_manager</div>
+<div class="line">source install/setup.bash</div>
+<div class="line">ros2 run controllo offboard</div>
+</div><!-- fragment --><h3><a class="anchor" id="autotoc_md6"></a>
+Tab 4: input node</h3>
+<div class="fragment"><div class="line">cd ~/UAV_manager</div>
+<div class="line">source install/setup.bash</div>
+<div class="line">ros2 run controllo comando</div>
+</div><!-- fragment --><h2><a class="anchor" id="autotoc_md7"></a>
+Simulated mocap node</h2>
+<p >With a few adjustments, it is possible to simulate a Motion Captur system inside the gaebo simulation</p>
+<p >In the PX4_Autopoiolot package:</p><ul>
+<li>Change the <code>SYS_MC_EST_GROUP</code> parameter to 2</li>
+<li>Change the <code>EKF2_AID_MASK</code> parameter to 24</li>
+<li>Change the <code>EKF2_HGT_MODE</code> to 3</li>
+</ul>
+<p >This will change the source for the position data to the mocap node. Then, in addition to tab 1..4, two more windows are needed:</p>
+<h3><a class="anchor" id="autotoc_md8"></a>
+Tab 5: Mocap data</h3>
+<div class="fragment"><div class="line">cd ~/UAV_manager</div>
+<div class="line">source install/setup.bash</div>
+<div class="line">ros2 run mocap mocap</div>
+</div><!-- fragment --><h3><a class="anchor" id="autotoc_md9"></a>
+Tab 6: Mocap publisher</h3>
+<div class="fragment"><div class="line">cd ~/UAV_manager</div>
+<div class="line">source install/setup.bash</div>
+<div class="line">ros2 run controllo mocap</div>
+</div><!-- fragment --><h2><a class="anchor" id="autotoc_md10"></a>
+Optitrack mocap system</h2>
+<p >It is possible to replace the simulated Mocap node with a real optitrack system. To do so, it is necessary for the optitrack system and the computer to be connected to the same Wi-Fi connection and to install on your machine both ROS2 Foxy and ROS noetic</p>
+<p ><b>Step 1: Download the ROS1 bridge</b> </p><div class="fragment"><div class="line">cd ~/UAV_manager/src</div>
+<div class="line">git clone https://github.com/ros2/ros1_bridge.git ~/UAV_manager/src/ros1_bridge</div>
+</div><!-- fragment --><p ><b>Step 2: download, build and start the [Natnet] package following the README instructions</b></p>
+<p ><b>Step 3: build the workspace</b> </p><blockquote class="doxtable">
+<p >&zwj;Note: in the following lines of code it is assumed that you installed ROS noetic and ROS2 Foxy to the default locations <code>/opt/ros/noetic</code> and <code>/opt/ros/foxy</code>. Otherwise, change them with the correct install path. </p>
+</blockquote>
+<ul>
+<li>build the ROS2 packages <div class="fragment"><div class="line">cd ~/UAV_manager</div>
+<div class="line">colcon build --symlink-install --packages-skip ros1_bridge</div>
+<div class="line">surce /opt/ros/noetic/setup.bash</div>
+</div><!-- fragment --></li>
+<li>build the ROS1 bridge <div class="fragment"><div class="line">surce /opt/ros/foxy/setup.bash</div>
+<div class="line">colcon build --symlink-install --packages-skip ros1_bridge</div>
+<div class="line">source install/setup.bash</div>
+</div><!-- fragment --> <b>Step 4: start the nodes</b></li>
+<li>Start tabs 1..4 (don't execute <code>colcon build</code> while starting tab 2)</li>
+<li>Run the [Natnet] node as shown in the README</li>
+<li>Run the ROS1 bridge <div class="fragment"><div class="line">source install/setup.bash</div>
+<div class="line">ros2 run ros1_bridge dynamic_bridge</div>
+</div><!-- fragment --> <blockquote class="doxtable">
+<p >&zwj;Note: the <em>ros1_bridge</em> package needs an active roscore master to run. In this case, the roscore is already running from the <em>roslaunch</em> command used to start the Natnet node. If you want to run the bridge alone, remenber to run <code>roscore</code> in a different tab </p>
+</blockquote>
+</li>
+<li>in one more tab, run the optitrack_mocap node with the command <div class="fragment"><div class="line">ros2 run optitrack_mocap optitrack_mocap</div>
+</div><!-- fragment --> </li>
+</ul>
+</div></div><!-- PageDoc -->
 </div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>

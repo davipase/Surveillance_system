@@ -71,6 +71,7 @@ $(function() {
 <div class="header">
   <div class="summary">
 <a href="#pub-methods">Public Member Functions</a> &#124;
+<a href="#related">Related Functions</a> &#124;
 <a href="classOffboardControl-members.html">List of all members</a>  </div>
   <div class="headertitle"><div class="title">OffboardControl Class Reference</div></div>
 </div><!--header-->
@@ -101,6 +102,13 @@ Public Member Functions</h2></td></tr>
 <tr class="separator:a4d6db5028e290bdb5698a57548e6821b"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a765d396d68d64893923eeae2f9c3322a"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classOffboardControl.html#a765d396d68d64893923eeae2f9c3322a">disarm</a> () const</td></tr>
 <tr class="separator:a765d396d68d64893923eeae2f9c3322a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="related" name="related"></a>
+Related Functions</h2></td></tr>
+<tr><td class="ititle" colspan="2"><p >(Note that these are not member functions.) </p>
+</td></tr>
+<tr class="memitem:a1775db78ca5b2cdb441c9eecdd8baca9"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classOffboardControl.html#a1775db78ca5b2cdb441c9eecdd8baca9">set_last_pos</a> (float x, float y, float z, float yaw)</td></tr>
+<tr class="separator:a1775db78ca5b2cdb441c9eecdd8baca9"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p >Class that keeps the drone in offboard mode and make it move. </p>
@@ -266,7 +274,12 @@ Public Member Functions</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
-<p >The method that sets and publishes the commands. </p>
+<p >The method that sets and publishes the commands. </p><dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">command</td><td>the command integer identifier (for takeoff and landing) </td></tr>
+  </table>
+  </dd>
+</dl>
 
 </div>
 </div>
@@ -285,6 +298,64 @@ Public Member Functions</h2></td></tr>
       </table>
 </div><div class="memdoc">
 <p >This methodcalls both the <a class="el" href="classOffboardControl.html#ac73b35817927b3e7bb72e6c7fb6a9754">publish_control_mode()</a> and the <a class="el" href="classOffboardControl.html#ade1ff2acd75a4f449ae99bc28a64be47">publish_trajectory_setpoint()</a> methods. </p>
+
+</div>
+</div>
+<h2 class="groupheader">Friends And Related Function Documentation</h2>
+<a id="a1775db78ca5b2cdb441c9eecdd8baca9" name="a1775db78ca5b2cdb441c9eecdd8baca9"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a1775db78ca5b2cdb441c9eecdd8baca9">&#9670;&#160;</a></span>set_last_pos()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void set_last_pos </td>
+          <td>(</td>
+          <td class="paramtype">float&#160;</td>
+          <td class="paramname"><em>x</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">float&#160;</td>
+          <td class="paramname"><em>y</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">float&#160;</td>
+          <td class="paramname"><em>z</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">float&#160;</td>
+          <td class="paramname"><em>yaw</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">related</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<p >A function used to set the last position of the drone. </p><dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">x</td><td>The last x position of the drone </td></tr>
+    <tr><td class="paramname">y</td><td>The last x position of the drone </td></tr>
+    <tr><td class="paramname">z</td><td>The last x position of the drone </td></tr>
+    <tr><td class="paramname">yaw</td><td>The last yaw value </td></tr>
+  </table>
+  </dd>
+</dl>
 
 </div>
 </div>

@@ -28,6 +28,11 @@ void \mbox{\hyperlink{classOffboardControl_a4d6db5028e290bdb5698a57548e6821b}{ar
 \item 
 void \mbox{\hyperlink{classOffboardControl_a765d396d68d64893923eeae2f9c3322a}{disarm}} () const
 \end{DoxyCompactItemize}
+\doxysubsection*{Related Functions}
+(Note that these are not member functions.) \begin{DoxyCompactItemize}
+\item 
+void \mbox{\hyperlink{classOffboardControl_a1775db78ca5b2cdb441c9eecdd8baca9}{set\+\_\+last\+\_\+pos}} (float x, float y, float z, float yaw)
+\end{DoxyCompactItemize}
 
 
 \doxysubsection{Detailed Description}
@@ -75,13 +80,38 @@ The method that sets and publishes the Trajectorysetpoint messages. \mbox{\Hyper
 \doxysubsubsection{\texorpdfstring{publish\_vehicle\_command()}{publish\_vehicle\_command()}}
 {\footnotesize\ttfamily void Offboard\+Control\+::publish\+\_\+vehicle\+\_\+command (\begin{DoxyParamCaption}\item[{uint16\+\_\+t}]{command,  }\item[{float}]{param1 = {\ttfamily 0.0},  }\item[{float}]{param2 = {\ttfamily 1.0},  }\item[{float}]{param3 = {\ttfamily 0.0},  }\item[{float}]{param4 = {\ttfamily 0.0},  }\item[{float}]{param5 = {\ttfamily 0.0},  }\item[{float}]{param6 = {\ttfamily 0.0},  }\item[{float}]{param7 = {\ttfamily 0.0} }\end{DoxyParamCaption}) const}
 
-The method that sets and publishes the commands. \mbox{\Hypertarget{classOffboardControl_ac348065aa1b1d37f2ccca833e495ec77}\label{classOffboardControl_ac348065aa1b1d37f2ccca833e495ec77}} 
+The method that sets and publishes the commands. 
+\begin{DoxyParams}{Parameters}
+{\em command} & the command integer identifier (for takeoff and landing) \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{classOffboardControl_ac348065aa1b1d37f2ccca833e495ec77}\label{classOffboardControl_ac348065aa1b1d37f2ccca833e495ec77}} 
 \index{OffboardControl@{OffboardControl}!send\_message@{send\_message}}
 \index{send\_message@{send\_message}!OffboardControl@{OffboardControl}}
 \doxysubsubsection{\texorpdfstring{send\_message()}{send\_message()}}
 {\footnotesize\ttfamily void Offboard\+Control\+::send\+\_\+message (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
 
 This methodcalls both the \mbox{\hyperlink{classOffboardControl_ac73b35817927b3e7bb72e6c7fb6a9754}{publish\+\_\+control\+\_\+mode()}} and the \mbox{\hyperlink{classOffboardControl_ade1ff2acd75a4f449ae99bc28a64be47}{publish\+\_\+trajectory\+\_\+setpoint()}} methods. 
+
+\doxysubsection{Friends And Related Function Documentation}
+\mbox{\Hypertarget{classOffboardControl_a1775db78ca5b2cdb441c9eecdd8baca9}\label{classOffboardControl_a1775db78ca5b2cdb441c9eecdd8baca9}} 
+\index{OffboardControl@{OffboardControl}!set\_last\_pos@{set\_last\_pos}}
+\index{set\_last\_pos@{set\_last\_pos}!OffboardControl@{OffboardControl}}
+\doxysubsubsection{\texorpdfstring{set\_last\_pos()}{set\_last\_pos()}}
+{\footnotesize\ttfamily void set\+\_\+last\+\_\+pos (\begin{DoxyParamCaption}\item[{float}]{x,  }\item[{float}]{y,  }\item[{float}]{z,  }\item[{float}]{yaw }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [related]}}
+
+A function used to set the last position of the drone. 
+\begin{DoxyParams}{Parameters}
+{\em x} & The last x position of the drone \\
+\hline
+{\em y} & The last x position of the drone \\
+\hline
+{\em z} & The last x position of the drone \\
+\hline
+{\em yaw} & The last yaw value \\
+\hline
+\end{DoxyParams}
+
 
 The documentation for this class was generated from the following file\+:\begin{DoxyCompactItemize}
 \item 
