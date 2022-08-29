@@ -20,14 +20,18 @@
 #include "../../cpp-spline/spline/src/main/cpp/CatmullRom.h"
 #include "../../cpp-spline/spline/src/main/cpp/CatmullRom.cpp"
 
+/** 
+* This parameter defines the number of intermediate points between two control points of the Catmull-Rom spline.
+*/
+#define int_points_num 50
+
 using std::placeholders::_1;
-
-
 
 using namespace std;
 using namespace std::chrono_literals;
 using namespace rclcpp;
 using namespace px4_msgs::msg;
+
 
 struct punto{
     float x=0;
@@ -41,86 +45,71 @@ float last_yaw=0;
 
 list<punto> punti;
 
-void set_last_position(float x, float y, float z){
-    last_position.x=x;
-    last_position.y=y;
-    last_position.z=-z;
-}
+/**
+* Function used to set the last position of the drone.
+*/
+void set_last_position(float x, float y, float z);
 
-float calcola_yaw(float x0, float x1, float y0, float y1){
-    if((x1==x0 && y1==y0) || x1==NULL) return last_yaw;
-    else{
-        float yaw=atan2((y1-y0),(x1-x0));
-        while(yaw > 3.14 || yaw < -3.14){
-            if(yaw>3.14) yaw-=6.28;
-            else yaw+=6.28;
-        }
-        last_yaw=yaw;
-        return -yaw;
-    } 
+/**
+* CURRENTLY NOT IN USE 
+* Function used to calculate the yaw value of the drone depending on its position in the Catmull-Rom curve.
+*/
+float calcola_yaw(float x0, float x1, float y0, float y1);
 
-}
-
-
+/**
+ * The Command class.
+ * The Command class is a user input module that is used to manually input messages for the system to send to the drone.
+ * The commands are identified by an ID which is an integer number that goes from 0 to 5.
+ */
 class Command : public Node
 {
     private:
-        atomic<uint64_t> timestamp_; //synchronized timestamp
+        /** 
+        * An atomic usigned int variable where to store the timestamp.
+        */
+        atomic<uint64_t> timestamp_;
+
+        /** 
+        * The publisher that will publish the user inpput to the Control node.
+        */
         Publisher<Comando>::SharedPtr pub_trajectory_;
-        // TrajectorySetpoint msg;
+
+        /** 
+        * The variable where to store the values of the commands to be sent.
+        */
         Comando msg;
 
     public:
+
+        /** 
+        * The class constructor. It simply initialize the Command publisher.
+        */
         Command():Node("comando"){
             pub_trajectory_ = this->create_publisher<Comando>("/command",10);
         }
 
-        void send_message(/*float com, float x, float y, float z*/){
-            // msg.x=x;
-            // msg.y=y;
-            // msg.z=z;
-            set_last_position(msg.x,msg.y,msg.z);
-            pub_trajectory_->publish(msg);
-            cout<<"Comando mandato\n";
-        }
+        /** 
+        * Method invoked whenever the user insert a new setpoint to be sent to the drone.
+        * It calls the set_last_position() function and sends the position to the control node
+        */
+        void send_message(/*float com, float x, float y, float z*/);
 
-        void send_trajectory(){
-
-            Curve* curve = new CatmullRom();
-            curve->add_way_point(Vector(0, 0, 0)); //Il primo viene ignorato
-            curve->set_steps(50); // generate 100 interpolate points between the last 4 way points
-            for (std::list<punto>::iterator it = punti.begin(); it != punti.end(); it++){
-                curve->add_way_point(Vector(it->x,it->y,it->z));
-            }
-            curve->add_way_point(Vector(0, 0, 0)); //l'ultimo viene ignorato
-
-            std::cout << "nodes: " << curve->node_count() << std::endl;
-            std::cout << "total length: " << curve->total_length() << std::endl;
-
-            for (int i = 0; i < curve->node_count(); ++i) {
-                float yaw=calcola_yaw(curve->node(i).x,curve->node(i+1).x,curve->node(i).y,curve->node(i+1).y);
-                std::cout << "node #" << i << ": " << curve->node(i).toString() << "yaw:"<<yaw<<endl;
-                set_msg(3,(float)(curve->node(i).x),(float)(curve->node(i).y),(float)(curve->node(i).z),yaw);
-                send_message();
-                this_thread::sleep_for(chrono::milliseconds(200));
-            }
-
-            delete curve;
-        }
+        /** 
+        * The send_trajectory method.
+        * This method is called when the user insert a serie of point for the drone to follow (or uses the test points).
+        * It creates a Catmull-Rom curve interpolating the control points and sends int_points_num intermediate points to the drone one after the other.
+        */
+        void send_trajectory();
         
+        /** 
+        * Method used to set the message to be sent to the Control node.
+        */
+        void set_msg( int c, float x, float y, float z,float yaw);
 
-        void set_msg( int c, float x, float y, float z,float yaw){
-            msg.com = c;
-            msg.x = x;
-            msg.y = y;
-            msg.z = -z;
-            msg.yaw=yaw;
-            set_last_position(x,y,z);
-        }
-
-        void print_message(){
-            cout<<"Comando: "<<msg.com<<"\nx: "<<msg.x<<"\ny: "<<msg.y<<endl;
-        }
+        /** 
+        * Methos used to print the message for debugging purpose.
+        */
+        void print_message();
 };
 
 
@@ -129,21 +118,21 @@ int main(int argc, char* argv[]){
     float x=0,y=0,z=0;
     int c;
     Command cmd;
-    while(rclcpp::ok()){
-        cout<<"Comando:\n0:land and exit program\n1:takeoff\n2:land\n3:goto position\n4:set trajectory (minimo 4) (41: use set trajectory)\n5:set yaw (da -3.14 a +3.14)\n==>";
+    while(rclcpp::ok()){ //!< Inside the main() function the user is asked to insert the Command which is then relayed to the control Node
+        cout<<"Command:\n0:land and exit program\n1:takeoff\n2:land\n3:goto position\n4:set trajectory (minimum 4) (41: use set trajectory)\n5:set yaw (da -3.14 a +3.14)\n==>";
         cin>>c;
         switch (c){
             case 0:
             {
                 cmd.set_msg(2,0,0,0,0);
                 cmd.send_message();
-                cout<<"Messaggio mandato\n";
+                cout<<"Message sent\n";
                 exit(0);
                 break;
             }
             case 1:
             {
-                cout<<"Altezza di takeoff: ";
+                cout<<"Takeoff altitude:: ";
                 cin>>z;
                 cmd.set_msg(1,0,0,z,0);
                 set_last_position(0,0,z);
@@ -157,11 +146,11 @@ int main(int argc, char* argv[]){
             } 
             case 3:
             {
-                cout <<"Coordinata x: ";
+                cout <<"Coordinate x: ";
                 cin >> x;
-                cout <<"\nCoordinata y: ";
+                cout <<"\nCoordinate y: ";
                 cin >> y;
-                cout <<"\nCoordinata z: ";
+                cout <<"\nCoordinate z: ";
                 cin >> z;
                 cmd.set_msg(3,x,y,z,0);
                 break;
@@ -171,11 +160,11 @@ int main(int argc, char* argv[]){
                 punti.clear();
                 
                 do{
-                cout <<"Coordinata x: ";
+                cout <<"Coordinate x: ";
                 cin >> p.x;
-                cout <<"\nCoordinata y: ";
+                cout <<"\nCoordinate y: ";
                 cin >> p.y;
-                cout <<"\nCoordinata z: ";
+                cout <<"\nCoordinate z: ";
                 cin >> p.z;
                 // cmd.set_msg(4,x,y,z);
                 if(p.z>0) punti.push_back(p);
@@ -197,7 +186,7 @@ int main(int argc, char* argv[]){
             }
             case 5:
             {
-                cout<<"Inserisci lo yaw: ";
+                cout<<"insert yaw: ";
                 float yaw;
                 cin >> yaw;
                 cout<<"||l_p.z="<<last_position.z<<endl;
@@ -205,13 +194,84 @@ int main(int argc, char* argv[]){
                 break;
             }
             default:{
-                cout<<"Comando non valido, atterraggio\n";
+                cout<<"Invalid command, landing...\n";
                 cmd.set_msg(2,0,0,0,0);
                 break;
             }
         }
         cmd.send_message();
-        cout<<"Messaggio mandato\n";
+        cout<<"message sent\n";
         cmd.print_message();
     }
+}
+
+
+void set_last_position(float x, float y, float z){
+    last_position.x=x;
+    last_position.y=y;
+    last_position.z=-z;
+}
+
+
+float calcola_yaw(float x0, float x1, float y0, float y1){
+    if((x1==x0 && y1==y0) || x1==NULL) return last_yaw;
+    else{
+        float yaw=atan2((y1-y0),(x1-x0));
+        while(yaw > 3.14 || yaw < -3.14){
+            if(yaw>3.14) yaw-=6.28;
+            else yaw+=6.28;
+        }
+        last_yaw=yaw;
+        return -yaw;
+    } 
+
+}
+
+
+void Command::send_message(/*float com, float x, float y, float z*/){
+    // msg.x=x;
+    // msg.y=y;
+    // msg.z=z;
+    set_last_position(msg.x,msg.y,msg.z);
+    pub_trajectory_->publish(msg);
+    cout<<"Comando mandato\n";
+}
+
+
+void Command::send_trajectory(){
+    Curve* curve = new CatmullRom(); //reates new curve
+    curve->add_way_point(Vector(0, 0, 0)); //the first is ignored
+    curve->set_steps(int_points_num); // generate 50 interpolate points between the last 4 way points
+    for (std::list<punto>::iterator it = punti.begin(); it != punti.end(); it++){
+        curve->add_way_point(Vector(it->x,it->y,it->z));
+    }
+    curve->add_way_point(Vector(0, 0, 0)); //the last is ignored
+
+    std::cout << "nodes: " << curve->node_count() << std::endl;
+    std::cout << "total length: " << curve->total_length() << std::endl;
+
+    for (int i = 0; i < curve->node_count(); ++i) {
+        float yaw=calcola_yaw(curve->node(i).x,curve->node(i+1).x,curve->node(i).y,curve->node(i+1).y);
+        std::cout << "node #" << i << ": " << curve->node(i).toString() << "yaw:"<<yaw<<endl;
+        set_msg(3,(float)(curve->node(i).x),(float)(curve->node(i).y),(float)(curve->node(i).z),yaw);
+        send_message();
+        this_thread::sleep_for(chrono::milliseconds(200));
+    }
+
+    delete curve; 
+}
+
+
+void Command::set_msg( int c, float x, float y, float z,float yaw){
+    msg.com = c;
+    msg.x = x;
+    msg.y = y;
+    msg.z = -z;
+    msg.yaw=yaw;
+    set_last_position(x,y,z);
+}
+
+
+void Command::print_message(){
+    cout<<"Comando: "<<msg.com<<"\nx: "<<msg.x<<"\ny: "<<msg.y<<endl;
 }
