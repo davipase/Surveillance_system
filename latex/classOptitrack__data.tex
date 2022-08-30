@@ -1,5 +1,10 @@
 \hypertarget{classOptitrack__data}{}\doxysection{Optitrack\+\_\+data Class Reference}
 \label{classOptitrack__data}\index{Optitrack\_data@{Optitrack\_data}}
+
+
+Message relayer fron natnet node to PX4.  
+
+
 Inheritance diagram for Optitrack\+\_\+data\+:\begin{figure}[H]
 \begin{center}
 \leavevmode
@@ -9,10 +14,34 @@ Inheritance diagram for Optitrack\+\_\+data\+:\begin{figure}[H]
 \doxysubsection*{Public Member Functions}
 \begin{DoxyCompactItemize}
 \item 
-\mbox{\Hypertarget{classOptitrack__data_a5b22c5cb513c4b70b6f878607bc4ef54}\label{classOptitrack__data_a5b22c5cb513c4b70b6f878607bc4ef54}} 
-void {\bfseries publish\+\_\+opt\+\_\+data} ()
+\mbox{\hyperlink{classOptitrack__data_a486055ba7b8d4c88ee56c1724fd6142d}{Optitrack\+\_\+data}} ()
+\item 
+void \mbox{\hyperlink{classOptitrack__data_a5b22c5cb513c4b70b6f878607bc4ef54}{publish\+\_\+opt\+\_\+data}} ()
 \end{DoxyCompactItemize}
 
+
+\doxysubsection{Detailed Description}
+Message relayer fron natnet node to PX4. 
+
+The \mbox{\hyperlink{classOptitrack__data}{Optitrack\+\_\+data}} class subscribes to the Natnet node through the Ros1 bridge to receive t information regarding the drone pose from the optitrack system. 
+
+\doxysubsection{Constructor \& Destructor Documentation}
+\mbox{\Hypertarget{classOptitrack__data_a486055ba7b8d4c88ee56c1724fd6142d}\label{classOptitrack__data_a486055ba7b8d4c88ee56c1724fd6142d}} 
+\index{Optitrack\_data@{Optitrack\_data}!Optitrack\_data@{Optitrack\_data}}
+\index{Optitrack\_data@{Optitrack\_data}!Optitrack\_data@{Optitrack\_data}}
+\doxysubsubsection{\texorpdfstring{Optitrack\_data()}{Optitrack\_data()}}
+{\footnotesize\ttfamily Optitrack\+\_\+data\+::\+Optitrack\+\_\+data (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+The constructor initialize all the Publishers and subscribers with the correct topic, and creates the callback function for the subscribers. The time\+Sync\+\_\+ subscriber simply receives the timestamp to be set in every message sent, while the opt\+\_\+sub receive data from the Natnet node and store it in the message variable. 
+
+\doxysubsection{Member Function Documentation}
+\mbox{\Hypertarget{classOptitrack__data_a5b22c5cb513c4b70b6f878607bc4ef54}\label{classOptitrack__data_a5b22c5cb513c4b70b6f878607bc4ef54}} 
+\index{Optitrack\_data@{Optitrack\_data}!publish\_opt\_data@{publish\_opt\_data}}
+\index{publish\_opt\_data@{publish\_opt\_data}!Optitrack\_data@{Optitrack\_data}}
+\doxysubsubsection{\texorpdfstring{publish\_opt\_data()}{publish\_opt\_data()}}
+{\footnotesize\ttfamily void Optitrack\+\_\+data\+::publish\+\_\+opt\+\_\+data (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+Method that publishes the message to the PX4. 
 
 The documentation for this class was generated from the following file\+:\begin{DoxyCompactItemize}
 \item 

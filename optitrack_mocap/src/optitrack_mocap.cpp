@@ -33,65 +33,94 @@ void quat2eul(float q0, float q1, float q2, float q3){
 }
 
 
-
+/**
+ * \brief Message relayer fron natnet node to PX4.
+ * 
+ * The Optitrack_data class subscribes to the Natnet node through the Ros1 bridge to receive t information regarding the drone pose
+ * from the optitrack system.
+ */
 class Optitrack_data : public Node
 {
     private:
-        std::atomic<uint64_t> timestamp_; //synchronized timestamp
+        /** 
+         * Atomic unsigned int variable where to store the timestamp.
+         */
+        std::atomic<uint64_t> timestamp_;
+
+        /** 
+         * Timer used for the wall_timer. It will execute the send_message() function every 100 milliseconds.
+         */
         rclcpp::TimerBase::SharedPtr timer_;
-        Subscription<Timesync>::SharedPtr timeSync_;
-        Subscription<PoseStamped>::SharedPtr opt_sub;
+
+        /** 
+         * Publisher that sends the position data to the PX4.
+         */
         Publisher<VehicleVisualOdometry>::SharedPtr opt_data_pub;
-        VehicleVisualOdometry messaggio;
+
+        /** 
+         * Subscriber that gets information from the Natnet node
+         */
+        Subscription<PoseStamped>::SharedPtr opt_sub;
+
+        /** 
+         * Subscriber that receive the timestamp to be stored in the timestamp_ variable from the PX4.
+         */ 
+        Subscription<Timesync>::SharedPtr timeSync_;
+
+        /** 
+         * Message to be sent to the PX4
+         */ 
+        VehicleVisualOdometry message;
 
     public:
 
-    Optitrack_data():Node("optitrack_data"){
-        timeSync_=this->create_subscription<Timesync>("fmu/timesync/out", 10,[this](const Timesync::UniquePtr msg) {
-			timestamp_.store(msg->timestamp);
-		});
+        /**
+         * The constructor initialize all the Publishers and subscribers with the correct topic, and creates the callback function for the
+         * subscribers. The timeSync_ subscriber simply receives the timestamp to be set in every message sent, while the opt_sub receive data
+         * from the Natnet node and store it in the message variable.
+         */
+        Optitrack_data():Node("optitrack_data"){
+            timeSync_=this->create_subscription<Timesync>("fmu/timesync/out", 10,[this](const Timesync::UniquePtr msg) {
+                timestamp_.store(msg->timestamp);
+            });
 
-        opt_sub = this->create_subscription<PoseStamped>("/natnet_ros/RigidBody/pose",10,[this](const PoseStamped::UniquePtr msg){
-            if(i==0){
-                //TO CHANGE CHECK FRAMES
+            opt_sub = this->create_subscription<PoseStamped>("/natnet_ros/RigidBody/pose",10,[this](const PoseStamped::UniquePtr msg){
+                message.timestamp = timestamp_.load();
+                message.timestamp_sample = timestamp_.load();
+                message.x = msg->pose.position.x;
+                message.y = msg->pose.position.y;
+                message.z = msg->pose.position.z;
+                message.q[0] = msg->pose.orientation.x;
+                message.q[1] = msg->pose.orientation.y;
+                message.q[2] = msg->pose.orientation.z;
+                message.q[3] = msg->pose.orientation.w;
 
-                messaggio.timestamp = timestamp_.load();
-                messaggio.timestamp_sample = timestamp_.load();
-                messaggio.x = msg->pose.position.x;
-                messaggio.y = msg->pose.position.y;
-                messaggio.z = msg->pose.position.z;
-                messaggio.q[0] = msg->pose.orientation.x;
-                messaggio.q[1] = msg->pose.orientation.y;
-                messaggio.q[2] = msg->pose.orientation.z;
-                messaggio.q[3] = msg->pose.orientation.w;
-                //DAL TOPIX: q[4] = x,y,z,w. Nella conversione: q[4]=w,x,y,z
-                quat2eul(messaggio.q[3], messaggio.q[0], messaggio.q[1],messaggio.q[2]);
+                //FROM THE TOPIC: q[4] = x,y,z,w. In the conversion function: q[4]=w,x,y,z
+                quat2eul(message.q[3], message.q[0], message.q[1],message.q[2]);
 
-                cout<<"x:"<<msg->pose.position.x<<"\n";
-                cout<<"y:"<<msg->pose.position.y<<"\n";
-                cout<<"z:"<<msg->pose.position.z<<"\n";
-                // cout<<"ox:"<<msg->pose.orientation.x<<"\n";
-                // cout<<"oy:"<<msg->pose.orientation.y<<"\n";
-                // cout<<"oz:"<<msg->pose.orientation.z<<"\n";
-                // cout<<"w:"<<msg->pose.orientation.w<<"\n\n";
-                cout<<"roll:"<<rpy[0]<<"\n";
-                cout<<"pitch:"<<rpy[1]<<"\n";
-                cout<<"yaw:"<<rpy[2]<<"\n\n";
-                i++;
-            }
-            else{i++;
-                i=i%10;
-            }
-        });
+                if(i==0){
+                    //TO CHANGE CHECK FRAMES
+                    cout<<"x:"<<msg->pose.position.x<<"\n";
+                    cout<<"y:"<<msg->pose.position.y<<"\n";
+                    cout<<"z:"<<msg->pose.position.z<<"\n";
+                    cout<<"roll:"<<rpy[0]<<"\n";
+                    cout<<"pitch:"<<rpy[1]<<"\n";
+                    cout<<"yaw:"<<rpy[2]<<"\n\n";
+                    i++;
+                }
+                else{i++;
+                    i=i%10;
+                }
+            });
 
-        opt_data_pub = this->create_publisher<VehicleVisualOdometry>("/fmu/vehicle_visual_odometry/in",10);
-        timer_ = this->create_wall_timer(25ms,std::bind(&Optitrack_data::publish_opt_data,this));
-    }
+            opt_data_pub = this->create_publisher<VehicleVisualOdometry>("/fmu/vehicle_visual_odometry/in",10);
+            timer_ = this->create_wall_timer(25ms,std::bind(&Optitrack_data::publish_opt_data,this));
+        }
 
-
-    void publish_opt_data(){
-        opt_data_pub->publish(messaggio);
-    }
+        /** 
+         * Method that publishes the message to the PX4.
+         */
+        void publish_opt_data();
 };
 
 
@@ -104,3 +133,8 @@ int main(int argc, char* argv[]){
     rclcpp::shutdown();
     return 0;
 }
+
+
+void publish_opt_data(){
+            opt_data_pub->publish(message);
+        }

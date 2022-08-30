@@ -39,57 +39,57 @@ using namespace px4_msgs::msg;
 int i=0;
 
 /** \brief Class that simulates a motion capture system in gazebo.
-*
-* The Mocap_sim class is able to simulate a Motion Capture system inside the Gazebo simulation.
-* It gets the position information from the Gazebo_mocap node and the rotation data from the odometry topic of the PX4.
-* It then relays the position information to the drone.
-* For this jnode to work it is compulsory to HANGE THE PX4-AUTOPILOT PARAMETERS accordingly (check for instruction in the README file).
-*/
+ *
+ * The Mocap_sim class is able to simulate a Motion Capture system inside the Gazebo simulation.
+ * It gets the position information from the Gazebo_mocap node and the rotation data from the odometry topic of the PX4.
+ * It then relays the position information to the drone.
+ * For this jnode to work it is compulsory to HANGE THE PX4-AUTOPILOT PARAMETERS accordingly (check for instruction in the README file).
+ */
 class Mocap_sim : public Node{
     private:
 
         /** 
-        * An atomic usigned int variable where to store the timestamp.
-        */
+         * An atomic usigned int variable where to store the timestamp.
+         */
         atomic<uint64_t> timestamp_;
 
         /** 
-        * The timer used for the wall_timer. It will execute the pub_odometry() function every 25 milliseconds.
-        */
+         * The timer used for the wall_timer. It will execute the pub_odometry() function every 25 milliseconds.
+         */
         rclcpp::TimerBase::SharedPtr timer_;
 
         /** 
-        * Publisher that sends the position data to the PX4.
-        */
+         * Publisher that sends the position data to the PX4.
+         */
         Publisher<VehicleVisualOdometry>::SharedPtr pub_mocap_odometry;
 
         /** 
-        * The Timesync subscriber. It will receive from the PX4 the timestamp to be stored in the timetamp_ variable and to be set in every message sent.
-        */ 
+         * The Timesync subscriber. It will receive from the PX4 the timestamp to be stored in the timetamp_ variable and to be set in every message sent.
+         */ 
         Subscription<Timesync>::SharedPtr timeSync_;
 
         /** 
-        * Subscriber that receives rotaion information (and other parameters that stay the same) from the PX4.
-        */
+         * Subscriber that receives rotaion information (and other parameters that stay the same) from the PX4.
+         */
         Subscription<VehicleOdometry>::SharedPtr sub_mocap_odometry;
 
         /** 
-        * Subscriber that receives the position data from the Gazebo_mocap node.
-        */
+         * Subscriber that receives the position data from the Gazebo_mocap node.
+         */
         Subscription<VehicleVisualOdometry>::SharedPtr sub_position_data;
 
         /** 
-        * Variable where the message information is stored.
-        */
+         * Variable where the message information is stored.
+         */
         VehicleVisualOdometry msg;
 
     public:
         /** 
-        * Mocap_sim constructor.
-        * it initialize the publishers and subscribers and creates the callbas functions.
-        * It fuses the message information coming from the two sources into a single mesge that is later sent to the drone
-        * with a frequency of 40hz.
-        */
+         * Mocap_sim constructor.
+         * it initialize the publishers and subscribers and creates the callbas functions.
+         * It fuses the message information coming from the two sources into a single mesge that is later sent to the drone
+         * with a frequency of 40hz.
+         */
         Mocap_sim():Node("odometry_prova"){
             timeSync_=this->create_subscription<Timesync>("/fmu/timesync/out", 10,[this](const Timesync::UniquePtr msg) {
 			    timestamp_.store(msg->timestamp);

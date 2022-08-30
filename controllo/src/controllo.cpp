@@ -25,7 +25,7 @@ using namespace rclcpp;
 using namespace px4_msgs::msg;
 
 /** 
- * A struct containing all the information of a point.
+ * \brief A struct containing all the information of a point.
  */
 struct punto{
     float x;
@@ -78,48 +78,47 @@ class OffboardControl : public Node
     private:
 
         /** 
-         * 
-         * An atomic unsigned int variable where to store the timestamp.
+         * Atomic unsigned int variable where to store the timestamp.
          */
         std::atomic<uint64_t> timestamp_;
 
         /** 
-         * The timer used for the wall_timer. It will execute the send_message() function every 100 milliseconds.
+         * Timer used for the wall_timer. It will execute the send_message() function every 100 milliseconds.
          */
         rclcpp::TimerBase::SharedPtr timer_;
 
         /** 
-         * The VehicleCommand Publisher. It will publish the land and takeoff command to the drone.
+         * VehicleCommand Publisher. It will publish the land and takeoff command to the drone.
          */ 
         Publisher<VehicleCommand>::SharedPtr vehicleCommand_;
 
         /** 
-         * The OffboardControlMode Publisher. This message will tell the drone to sstay in offboard mode. Required minimum 10hz.
+         * OffboardControlMode Publisher. This message will tell the drone to sstay in offboard mode. Required minimum 10hz.
          */ 
         Publisher<OffboardControlMode>::SharedPtr offboardControlMode_;
 
         /** 
-         * The TrajectorySetpoint Publisher. This message will tell the drone the cordinates to reach. Required minimum 10hz.
+         * TrajectorySetpoint Publisher. This message will tell the drone the cordinates to reach. Required minimum 10hz.
          */ 
         Publisher<TrajectorySetpoint>::SharedPtr trajectorySetpoint_;
 
         /** 
-         * The Timesync subscriber. It will receive from the PX4 the timestamp to be stored in the timetamp_ variable and to be set in every message sent.
+         * Timesync subscriber. It will receive from the PX4 the timestamp to be stored in the timetamp_ variable and to be set in every message sent.
          */ 
         Subscription<Timesync>::SharedPtr timeSync_;
 
         /** 
-         * The Command subscriber. It will receive the commands to be sent from the node Comando.
+         * Command subscriber. It will receive the commands to be sent from the node Comando.
          */ 
         Subscription<Comando>::SharedPtr subComm_;
 
         /** 
-         * The variables where to store the position (x,y,z) and the rotaion (yaw) value.
+         * Variables used to store the position (x,y,z) and the rotation (yaw) value.
          */ 
         float x=0,y=0,z=0, yaw=0;
 
         /** 
-         * The takeoff command.
+         * Takeoff command.
          */ 
         int command=VehicleCommand::VEHICLE_CMD_DO_SET_MODE;
 
@@ -127,8 +126,7 @@ class OffboardControl : public Node
     public:
 
         /**
-         * The constructor.
-         * This constructor initialize all the Publishers and subscribers with the correct topic, and creates the callback function for the
+         * The constructor initialize all the Publishers and subscribers with the correct topic, and creates the callback function for the
          * Timesync and the Command subscriber. While the former simply stores the timestamp values in the timestamp_ variable, the latter
          * decypher the meaning of the command based on the command ID, and sends to the drone the correct message.
          */
