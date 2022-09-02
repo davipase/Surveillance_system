@@ -126,15 +126,13 @@ source install/setup.bash
 - Start the Optitrack Mocap node
 in a different Tab, execute the following:
 ```sh
-cd 
-```
-- Run the [Natnet] node as shown in the README
-- Run the ROS1 bridge
-```sh
 cd ~/UAV_manager
 source install/setup.bash
 ros2 run optitrack_mocap optitrack_mocap
 ```
+- Run the [Natnet] node as shown in the README
+- Run the ROS1 bridge
+
 > Note: the *ros1_bridge* package needs an active roscore master to run. In this case, the roscore is already running from the *roslaunch* command used to start the Natnet node. If you want to run the bridge alone, remenber to run `roscore` in a different tab
 
 - in one more tab, run the optitrack_mocap node with the command
