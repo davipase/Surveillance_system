@@ -71,7 +71,7 @@ ros2 run controllo comando
 ```
 
 ## Simulated mocap node
-With a few adjustments, it is possible to simulate a Motion Captur system inside the gaebo simulation
+With a few adjustments, it is possible to simulate a Motion Captur system inside the gazebo simulation
 
 In the PX4_Autopoiolot package:
 - Change the `SYS_MC_EST_GROUP` parameter to 2
