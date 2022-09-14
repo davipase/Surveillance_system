@@ -40,9 +40,13 @@ void cb(ConstPosesStampedPtr &_msg);
 */
 class Gazebo_mocap_publisher : public Node{
   private:
+  
     Publisher<VehicleVisualOdometry>::SharedPtr pub_;
 
   public:
+    /**
+    * Constructor. Initializes the publisher.
+    */
     Gazebo_mocap_publisher():Node("pubb"){
       pub_ = this->create_publisher<VehicleVisualOdometry>("/mocap_data",10);
     }
