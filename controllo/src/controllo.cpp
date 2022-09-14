@@ -28,10 +28,10 @@ using namespace px4_msgs::msg;
  * \brief A struct containing all the information of a point.
  */
 struct punto{
-    float x;
-    float y;
-    float z;
-    float yaw;
+    float x; /**< The x value */  
+    float y; /**< The y value */  
+    float z; /**< The z value */  
+    float yaw; /**< The yaw value */  
 }last_position;
 
 /** 
@@ -42,12 +42,7 @@ struct punto{
  * \param z The last x position of the drone
  * \param yaw The last yaw value
  */
-void set_last_pos(float x, float y, float z, float yaw){
-    last_position.x=x;
-    last_position.y=y;
-    last_position.z=z;
-    last_position.yaw=yaw;
-}
+void set_last_pos(float x, float y, float z, float yaw);
 
 /** 
  * NOT WORKING
@@ -224,7 +219,6 @@ int main(int argc, char* argv[]){
 	rclcpp::spin(std::make_shared<OffboardControl>()); //creating instance of class and spinning
     rclcpp::shutdown();
     return 0;
-
 }
 
 
@@ -302,4 +296,12 @@ void OffboardControl::disarm() const
 {
     OffboardControl::publish_vehicle_command(VehicleCommand::VEHICLE_CMD_COMPONENT_ARM_DISARM, 0.0);
     cout<<"vehicle disarm sent \n";
+}
+
+
+void set_last_pos(float x, float y, float z, float yaw){
+    last_position.x=x;
+    last_position.y=y;
+    last_position.z=z;
+    last_position.yaw=yaw;
 }

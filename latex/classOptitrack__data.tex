@@ -18,6 +18,11 @@ Inheritance diagram for Optitrack\+\_\+data\+:\begin{figure}[H]
 \item 
 void \mbox{\hyperlink{classOptitrack__data_a5b22c5cb513c4b70b6f878607bc4ef54}{publish\+\_\+opt\+\_\+data}} ()
 \end{DoxyCompactItemize}
+\doxysubsection*{Related Functions}
+(Note that these are not member functions.) \begin{DoxyCompactItemize}
+\item 
+void \mbox{\hyperlink{classOptitrack__data_aafe29053944c77f3e97326b95829c800}{quat2eul}} (float q0, float q1, float q2, float q3)
+\end{DoxyCompactItemize}
 
 
 \doxysubsection{Detailed Description}
@@ -32,7 +37,7 @@ The \mbox{\hyperlink{classOptitrack__data}{Optitrack\+\_\+data}} class subscribe
 \doxysubsubsection{\texorpdfstring{Optitrack\_data()}{Optitrack\_data()}}
 {\footnotesize\ttfamily Optitrack\+\_\+data\+::\+Optitrack\+\_\+data (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
 
-The constructor initialize all the Publishers and subscribers with the correct topic, and creates the callback function for the subscribers. The time\+Sync\+\_\+ subscriber simply receives the timestamp to be set in every message sent, while the opt\+\_\+sub receive data from the Natnet node and store it in the message variable. 
+The Constructor of the \mbox{\hyperlink{classOptitrack__data}{Optitrack\+\_\+data}} class It subscribes to the Nat\+Net topic to retrieve the Mocap data from the Nat\+Net Node (and thus from the Optitrack system) Then it adjust the reference frame (from Forward-\/\+Up-\/\+Right to North-\/\+East-\/\+Down) before publishing the data to the drone 
 
 \doxysubsection{Member Function Documentation}
 \mbox{\Hypertarget{classOptitrack__data_a5b22c5cb513c4b70b6f878607bc4ef54}\label{classOptitrack__data_a5b22c5cb513c4b70b6f878607bc4ef54}} 
@@ -42,6 +47,26 @@ The constructor initialize all the Publishers and subscribers with the correct t
 {\footnotesize\ttfamily void Optitrack\+\_\+data\+::publish\+\_\+opt\+\_\+data (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
 
 Method that publishes the message to the PX4. 
+
+\doxysubsection{Friends And Related Function Documentation}
+\mbox{\Hypertarget{classOptitrack__data_aafe29053944c77f3e97326b95829c800}\label{classOptitrack__data_aafe29053944c77f3e97326b95829c800}} 
+\index{Optitrack\_data@{Optitrack\_data}!quat2eul@{quat2eul}}
+\index{quat2eul@{quat2eul}!Optitrack\_data@{Optitrack\_data}}
+\doxysubsubsection{\texorpdfstring{quat2eul()}{quat2eul()}}
+{\footnotesize\ttfamily void quat2eul (\begin{DoxyParamCaption}\item[{float}]{q0,  }\item[{float}]{q1,  }\item[{float}]{q2,  }\item[{float}]{q3 }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [related]}}
+
+Converts the quaternion in rpy 
+\begin{DoxyParams}{Parameters}
+{\em q0} & the x value \\
+\hline
+{\em q1} & the y value \\
+\hline
+{\em q2} & the z value \\
+\hline
+{\em q3} & the w value \\
+\hline
+\end{DoxyParams}
+
 
 The documentation for this class was generated from the following file\+:\begin{DoxyCompactItemize}
 \item 

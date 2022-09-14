@@ -1,0 +1,54 @@
+\hypertarget{namespacequalisys__mocap__data_1_1streaming__6dof__data}{}\doxysection{qualisys\+\_\+mocap\+\_\+data.\+streaming\+\_\+6dof\+\_\+data Namespace Reference}
+\label{namespacequalisys__mocap__data_1_1streaming__6dof__data}\index{qualisys\_mocap\_data.streaming\_6dof\_data@{qualisys\_mocap\_data.streaming\_6dof\_data}}
+\doxysubsection*{Classes}
+\begin{DoxyCompactItemize}
+\item 
+class \mbox{\hyperlink{classqualisys__mocap__data_1_1streaming__6dof__data_1_1Mocap__publisher}{Mocap\+\_\+publisher}}
+\end{DoxyCompactItemize}
+\doxysubsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+def \mbox{\hyperlink{namespacequalisys__mocap__data_1_1streaming__6dof__data_a95739fdba38063250ed621efccdecfe7}{create\+\_\+body\+\_\+index}} (xml\+\_\+string)
+\item 
+def \mbox{\hyperlink{namespacequalisys__mocap__data_1_1streaming__6dof__data_a90662d0e4bf6b9e42b755b842a2cc89f}{publisher\+\_\+udp\+\_\+main}} (json\+\_\+file\+\_\+data)
+\item 
+\mbox{\Hypertarget{namespacequalisys__mocap__data_1_1streaming__6dof__data_a2138737dbd3ae62597e258517ce32958}\label{namespacequalisys__mocap__data_1_1streaming__6dof__data_a2138737dbd3ae62597e258517ce32958}} 
+def {\bfseries main} (network\+\_\+config\+\_\+file\+\_\+name)
+\end{DoxyCompactItemize}
+\doxysubsection*{Variables}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\Hypertarget{namespacequalisys__mocap__data_1_1streaming__6dof__data_ab89db68af7e419823efe6698de60e607}\label{namespacequalisys__mocap__data_1_1streaming__6dof__data_ab89db68af7e419823efe6698de60e607}} 
+{\bfseries msg} = Vehicle\+Visual\+Odometry()
+\item 
+\mbox{\Hypertarget{namespacequalisys__mocap__data_1_1streaming__6dof__data_a6ec6eb099b8cf04e30104ecbba1f9f9e}\label{namespacequalisys__mocap__data_1_1streaming__6dof__data_a6ec6eb099b8cf04e30104ecbba1f9f9e}} 
+string {\bfseries network\+\_\+config\+\_\+file\+\_\+name} = \textquotesingle{}mocap\+\_\+config.\+json\textquotesingle{}
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+\begin{DoxyVerb}    Streaming 6-DOF data from QTM forever
+    (start QTM first, Capture->Continuous Capture)
+\end{DoxyVerb}
+ 
+
+\doxysubsection{Function Documentation}
+\mbox{\Hypertarget{namespacequalisys__mocap__data_1_1streaming__6dof__data_a95739fdba38063250ed621efccdecfe7}\label{namespacequalisys__mocap__data_1_1streaming__6dof__data_a95739fdba38063250ed621efccdecfe7}} 
+\index{qualisys\_mocap\_data.streaming\_6dof\_data@{qualisys\_mocap\_data.streaming\_6dof\_data}!create\_body\_index@{create\_body\_index}}
+\index{create\_body\_index@{create\_body\_index}!qualisys\_mocap\_data.streaming\_6dof\_data@{qualisys\_mocap\_data.streaming\_6dof\_data}}
+\doxysubsubsection{\texorpdfstring{create\_body\_index()}{create\_body\_index()}}
+{\footnotesize\ttfamily def qualisys\+\_\+mocap\+\_\+data.\+streaming\+\_\+6dof\+\_\+data.\+create\+\_\+body\+\_\+index (\begin{DoxyParamCaption}\item[{}]{xml\+\_\+string }\end{DoxyParamCaption})}
+
+\begin{DoxyVerb} Extract a name to index dictionary from 6-DOF settings xml \end{DoxyVerb}
+ \mbox{\Hypertarget{namespacequalisys__mocap__data_1_1streaming__6dof__data_a90662d0e4bf6b9e42b755b842a2cc89f}\label{namespacequalisys__mocap__data_1_1streaming__6dof__data_a90662d0e4bf6b9e42b755b842a2cc89f}} 
+\index{qualisys\_mocap\_data.streaming\_6dof\_data@{qualisys\_mocap\_data.streaming\_6dof\_data}!publisher\_udp\_main@{publisher\_udp\_main}}
+\index{publisher\_udp\_main@{publisher\_udp\_main}!qualisys\_mocap\_data.streaming\_6dof\_data@{qualisys\_mocap\_data.streaming\_6dof\_data}}
+\doxysubsubsection{\texorpdfstring{publisher\_udp\_main()}{publisher\_udp\_main()}}
+{\footnotesize\ttfamily def qualisys\+\_\+mocap\+\_\+data.\+streaming\+\_\+6dof\+\_\+data.\+publisher\+\_\+udp\+\_\+main (\begin{DoxyParamCaption}\item[{}]{json\+\_\+file\+\_\+data }\end{DoxyParamCaption})}
+
+\begin{DoxyVerb}The following two lines show what is json_file_data
+
+    json_file = open('mocap_config.json')
+    json_file_data = json.load(json_file)
+\end{DoxyVerb}
+ 

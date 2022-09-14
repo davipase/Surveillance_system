@@ -159,13 +159,17 @@ Optitrack mocap system</h2>
 <div class="line">source install/setup.bash</div>
 </div><!-- fragment --> <b>Step 4: start the nodes</b></li>
 <li>Start tabs 1..4 (don't execute <code>colcon build</code> while starting tab 2)</li>
+<li>Start the Optitrack Mocap node in a different Tab, execute the following: <div class="fragment"><div class="line">cd ~/UAV_manager</div>
+<div class="line">source install/setup.bash</div>
+<div class="line">ros2 run optitrack_mocap optitrack_mocap</div>
+</div><!-- fragment --></li>
 <li>Run the [Natnet] node as shown in the README</li>
-<li>Run the ROS1 bridge <div class="fragment"><div class="line">source install/setup.bash</div>
-<div class="line">ros2 run ros1_bridge dynamic_bridge</div>
-</div><!-- fragment --> <blockquote class="doxtable">
+<li>Run the ROS1 bridge</li>
+</ul>
+<blockquote class="doxtable">
 <p >&zwj;Note: the <em>ros1_bridge</em> package needs an active roscore master to run. In this case, the roscore is already running from the <em>roslaunch</em> command used to start the Natnet node. If you want to run the bridge alone, remenber to run <code>roscore</code> in a different tab </p>
 </blockquote>
-</li>
+<ul>
 <li>in one more tab, run the optitrack_mocap node with the command <div class="fragment"><div class="line">ros2 run optitrack_mocap optitrack_mocap</div>
 </div><!-- fragment --> </li>
 </ul>

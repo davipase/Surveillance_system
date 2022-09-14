@@ -1,0 +1,55 @@
+\hypertarget{classUdpProtocol_1_1UdpProtocol}{}\doxysection{Udp\+Protocol.\+Udp\+Protocol Class Reference}
+\label{classUdpProtocol_1_1UdpProtocol}\index{UdpProtocol.UdpProtocol@{UdpProtocol.UdpProtocol}}
+\doxysubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\Hypertarget{classUdpProtocol_1_1UdpProtocol_a3a807345bc625acb8348187fda07558f}\label{classUdpProtocol_1_1UdpProtocol_a3a807345bc625acb8348187fda07558f}} 
+def {\bfseries \+\_\+\+\_\+init\+\_\+\+\_\+} (self)
+\item 
+\mbox{\Hypertarget{classUdpProtocol_1_1UdpProtocol_a91104c3b196a7531f5212c31f4a6e00f}\label{classUdpProtocol_1_1UdpProtocol_a91104c3b196a7531f5212c31f4a6e00f}} 
+def {\bfseries connection\+\_\+made} (self, transport)
+\item 
+def \mbox{\hyperlink{classUdpProtocol_1_1UdpProtocol_a92efda566cb852f3667337353b8243b8}{datagram\+\_\+received}} (self, data, addr)
+\item 
+\mbox{\Hypertarget{classUdpProtocol_1_1UdpProtocol_a5361a4c90ebcd6098dbc32039a5662d7}\label{classUdpProtocol_1_1UdpProtocol_a5361a4c90ebcd6098dbc32039a5662d7}} 
+def {\bfseries connection\+\_\+lost} (self, transport)
+\item 
+\mbox{\Hypertarget{classUdpProtocol_1_1UdpProtocol_a8fc0ba0ed8e1a830a145a68c44865af0}\label{classUdpProtocol_1_1UdpProtocol_a8fc0ba0ed8e1a830a145a68c44865af0}} 
+def {\bfseries error\+\_\+received} (self, exc)
+\item 
+\mbox{\Hypertarget{classUdpProtocol_1_1UdpProtocol_a627c500fc54a96eaaac0122ef2489f33}\label{classUdpProtocol_1_1UdpProtocol_a627c500fc54a96eaaac0122ef2489f33}} 
+def {\bfseries recvfrom} (self)
+\end{DoxyCompactItemize}
+\doxysubsection*{Public Attributes}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\Hypertarget{classUdpProtocol_1_1UdpProtocol_a20a9bc44c2302a2f36347b064da736a5}\label{classUdpProtocol_1_1UdpProtocol_a20a9bc44c2302a2f36347b064da736a5}} 
+{\bfseries packets}
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+\begin{DoxyVerb}A callable asyncio Datagram Protocol implementation.
+For robotics programming purpose, I need this protocol does last-come-first-serve.
+
+Reference:
+    https://docs.python.org/3/library/asyncio-protocol.html#datagram-protocols
+    https://docs.python.org/3/library/asyncio-eventloop.html#asyncio.loop.create_datagram_endpoint    
+    https://stackoverflow.com/questions/46140556/proper-way-to-clear-an-asyncio-queue-in-python3
+\end{DoxyVerb}
+ 
+
+\doxysubsection{Member Function Documentation}
+\mbox{\Hypertarget{classUdpProtocol_1_1UdpProtocol_a92efda566cb852f3667337353b8243b8}\label{classUdpProtocol_1_1UdpProtocol_a92efda566cb852f3667337353b8243b8}} 
+\index{UdpProtocol.UdpProtocol@{UdpProtocol.UdpProtocol}!datagram\_received@{datagram\_received}}
+\index{datagram\_received@{datagram\_received}!UdpProtocol.UdpProtocol@{UdpProtocol.UdpProtocol}}
+\doxysubsubsection{\texorpdfstring{datagram\_received()}{datagram\_received()}}
+{\footnotesize\ttfamily def Udp\+Protocol.\+Udp\+Protocol.\+datagram\+\_\+received (\begin{DoxyParamCaption}\item[{}]{self,  }\item[{}]{data,  }\item[{}]{addr }\end{DoxyParamCaption})}
+
+\begin{DoxyVerb}Receive datagram from the UDP channel.
+\end{DoxyVerb}
+ 
+
+The documentation for this class was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+qualisys\+\_\+mocap\+\_\+data/resource/python/Udp\+Protocol.\+py\end{DoxyCompactItemize}

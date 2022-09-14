@@ -135,16 +135,22 @@ Note\+: in the following lines of code it is assumed that you installed ROS noet
 \end{DoxyCode}
  {\bfseries{Step 4\+: start the nodes}}
 \item Start tabs 1..4 (don\textquotesingle{}t execute {\ttfamily colcon build} while starting tab 2)
-\item Run the \mbox{[}Natnet\mbox{]} node as shown in the README
-\item Run the ROS1 bridge 
+\item Start the Optitrack Mocap node in a different Tab, execute the following\+: 
 \begin{DoxyCode}{0}
+\DoxyCodeLine{cd \string~/UAV\_manager}
 \DoxyCodeLine{source install/setup.bash}
-\DoxyCodeLine{ros2 run ros1\_bridge dynamic\_bridge}
+\DoxyCodeLine{ros2 run optitrack\_mocap optitrack\_mocap}
 
 \end{DoxyCode}
- \begin{quote}
+
+\item Run the \mbox{[}Natnet\mbox{]} node as shown in the README
+\item Run the ROS1 bridge
+\end{DoxyItemize}
+
+\begin{quote}
 Note\+: the {\itshape ros1\+\_\+bridge} package needs an active roscore master to run. In this case, the roscore is already running from the {\itshape roslaunch} command used to start the Natnet node. If you want to run the bridge alone, remenber to run {\ttfamily roscore} in a different tab \end{quote}
 
+\begin{DoxyItemize}
 \item in one more tab, run the optitrack\+\_\+mocap node with the command 
 \begin{DoxyCode}{0}
 \DoxyCodeLine{ros2 run optitrack\_mocap optitrack\_mocap}

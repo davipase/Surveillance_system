@@ -56,7 +56,6 @@ list<punto> punti;
  * \param x The last x position of the drone
  * \param y The last x position of the drone
  * \param z The last x position of the drone
- * \param yaw The last yaw value
 */
 void set_last_position(float x, float y, float z);
 

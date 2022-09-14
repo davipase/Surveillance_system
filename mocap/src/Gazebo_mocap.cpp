@@ -46,10 +46,10 @@ class Gazebo_mocap_publisher : public Node{
     Gazebo_mocap_publisher():Node("pubb"){
       pub_ = this->create_publisher<VehicleVisualOdometry>("/mocap_data",10);
     }
-
-    void publish_mocap(){
-      pub_->publish(msg);
-    }
+    /**
+    * publishes the message
+    */
+    void publish_mocap();
 };
 
 
@@ -155,4 +155,9 @@ void cb(ConstPosesStampedPtr &_msg)
   // msg.q = q;
   gaz_pub->publish_mocap();
 
+}
+
+
+void publish_mocap(){
+  pub_->publish(msg);
 }

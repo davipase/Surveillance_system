@@ -71,6 +71,7 @@ $(function() {
 <div class="header">
   <div class="summary">
 <a href="#pub-methods">Public Member Functions</a> &#124;
+<a href="#related">Related Functions</a> &#124;
 <a href="classOptitrack__data-members.html">List of all members</a>  </div>
   <div class="headertitle"><div class="title">Optitrack_data Class Reference</div></div>
 </div><!--header-->
@@ -91,6 +92,13 @@ Public Member Functions</h2></td></tr>
 <tr class="separator:a486055ba7b8d4c88ee56c1724fd6142d"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a5b22c5cb513c4b70b6f878607bc4ef54"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classOptitrack__data.html#a5b22c5cb513c4b70b6f878607bc4ef54">publish_opt_data</a> ()</td></tr>
 <tr class="separator:a5b22c5cb513c4b70b6f878607bc4ef54"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="related" name="related"></a>
+Related Functions</h2></td></tr>
+<tr><td class="ititle" colspan="2"><p >(Note that these are not member functions.) </p>
+</td></tr>
+<tr class="memitem:aafe29053944c77f3e97326b95829c800"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classOptitrack__data.html#aafe29053944c77f3e97326b95829c800">quat2eul</a> (float q0, float q1, float q2, float q3)</td></tr>
+<tr class="separator:aafe29053944c77f3e97326b95829c800"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p >Message relayer fron natnet node to PX4. </p>
@@ -118,7 +126,7 @@ Public Member Functions</h2></td></tr>
   </tr>
 </table>
 </div><div class="memdoc">
-<p >The constructor initialize all the Publishers and subscribers with the correct topic, and creates the callback function for the subscribers. The timeSync_ subscriber simply receives the timestamp to be set in every message sent, while the opt_sub receive data from the Natnet node and store it in the message variable. </p>
+<p >The Constructor of the <a class="el" href="classOptitrack__data.html" title="Message relayer fron natnet node to PX4.">Optitrack_data</a> class It subscribes to the NatNet topic to retrieve the Mocap data from the NatNet Node (and thus from the Optitrack system) Then it adjust the reference frame (from Forward-Up-Right to North-East-Down) before publishing the data to the drone </p>
 
 </div>
 </div>
@@ -138,6 +146,64 @@ Public Member Functions</h2></td></tr>
       </table>
 </div><div class="memdoc">
 <p >Method that publishes the message to the PX4. </p>
+
+</div>
+</div>
+<h2 class="groupheader">Friends And Related Function Documentation</h2>
+<a id="aafe29053944c77f3e97326b95829c800" name="aafe29053944c77f3e97326b95829c800"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aafe29053944c77f3e97326b95829c800">&#9670;&#160;</a></span>quat2eul()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void quat2eul </td>
+          <td>(</td>
+          <td class="paramtype">float&#160;</td>
+          <td class="paramname"><em>q0</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">float&#160;</td>
+          <td class="paramname"><em>q1</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">float&#160;</td>
+          <td class="paramname"><em>q2</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">float&#160;</td>
+          <td class="paramname"><em>q3</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">related</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<p >Converts the quaternion in rpy </p><dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">q0</td><td>the x value </td></tr>
+    <tr><td class="paramname">q1</td><td>the y value </td></tr>
+    <tr><td class="paramname">q2</td><td>the z value </td></tr>
+    <tr><td class="paramname">q3</td><td>the w value </td></tr>
+  </table>
+  </dd>
+</dl>
 
 </div>
 </div>
